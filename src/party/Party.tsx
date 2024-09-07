@@ -8,7 +8,7 @@ const Party = () => {
         <AboutParty/>
       </div>
     </form>
-);
+  );
 };
 
 export default Party;
