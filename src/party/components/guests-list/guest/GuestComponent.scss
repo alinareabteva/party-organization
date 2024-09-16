@@ -1,0 +1,71 @@
+.guest-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 90%;
+  padding: 20px;
+  background: #50bc8e;
+  border: solid 1px #000;
+  border-radius: 3%;
+
+  .gender {
+    display: flex;
+    width: 200px;
+    flex-direction: row;
+    align-items: center;
+
+    .gender-label {
+      font-weight: 500;
+      font-size: 14px;
+      text-transform: uppercase;
+      width: 20px;
+      display: flex;
+    }
+
+    .radio-group {
+      width: 80px;
+      display: flex;
+      flex-direction: column;
+
+      .base-input {
+        display: flex;
+        width: 35px;
+
+        .label {
+          display: flex;
+          font-weight: 500;
+          font-size: 14px;
+          text-transform: uppercase;
+          width: 20px;
+        }
+      }
+    }
+  }
+
+  .alcohol {
+    display: flex;
+    width: 700px;
+    flex-direction: row;
+    justify-content: center;
+    padding-bottom: 5px;
+
+    .alcohol-label {
+      font-weight: 500;
+      font-size: 14px;
+      text-transform: uppercase;
+      width: 160px;
+      display: flex;
+      flex-direction: row;
+    }
+
+    .select-alcohol {
+      width: 350px;
+    }
+  }
+
+  .base-input {
+    display: flex;
+    width: 350px;
+
+  }
+}

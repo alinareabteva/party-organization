@@ -1,0 +1,38 @@
+.guests {
+  width: 60%;
+  margin-top: 2%;
+
+  .guests-label {
+    font-weight: 600;
+    font-size: 16px;
+    text-transform: uppercase;
+    text-align: start;
+    color: #1a1e16;
+  }
+
+  .guest-list {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+    border: solid 2px #50bc8e;
+    padding: 20px;
+    height: 50vh;
+  }
+
+  .button-add {
+    display: flex;
+    width: 100px;
+    height: 50px;
+    justify-content: center;
+    align-items: center;
+    float: right;
+    margin-top: 2%;
+    background: #79d38a;
+    border: none;
+    font-weight: 600;
+    font-size: 16px;
+    text-transform: uppercase;
+
+  }
+}
