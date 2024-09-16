@@ -2,6 +2,7 @@ import "./AboutParty.scss"
 import {useState, ChangeEvent} from "react";
 import dayjs, {Dayjs} from "dayjs";
 import classNames from "classnames";
+import BaseInput from "../../../components/base/base-input/BaseInput.tsx";
 
 interface AboutPartyState {
   partyName: string;
@@ -42,7 +43,6 @@ const AboutParty = () => {
     return {
       id: key,
       className: classNames({
-        'base-input': true,
         [className]: !!className,
       }),
       type,
@@ -65,14 +65,12 @@ const AboutParty = () => {
 
   return (
     <>
-      <div className="row">
-        <label htmlFor="name" className="label">Party Name: </label>
-        <input
-          {...createPropsForInput("partyName", 'Enter Party Name')}
-        />
-      </div>
+      <BaseInput
+        label="Name"
+        {...createPropsForInput("partyName", 'Enter Party Name')}
+      />
 
-      <div className="row">
+      <div className="organizer">
         <label htmlFor="name" className="label">Organizer:</label>
         <input
           {...createAllPropsForInput({
@@ -90,31 +88,24 @@ const AboutParty = () => {
         />
       </div>
 
-      <div className="row">
-        <label htmlFor="name" className="label">Place:</label>
-        <input
-          {...createPropsForInput("place", 'Enter Place')}
-        />
-      </div>
 
-      <div className="row">
-        <label htmlFor="name" className="label">Date: </label>
-        <input
-          id="date"
-          onChange={handleDateChange}
-          className="base-input"
-          type="date"
-          value={state.date.format(BASE_FORMAT)}
-        />
-      </div>
+      <BaseInput
+        label="Place:"
+        {...createPropsForInput("place", 'Enter Place')}
+      />
+      <BaseInput
+        id="date"
+        onChange={handleDateChange}
+        className="base-input"
+        type="date"
+        value={state.date.format(BASE_FORMAT)}
+        label="Date:"
+      />
 
-      <div className="row">
-        <label htmlFor="name" className="label">Phone number: </label>
-        <input
-          {...createPropsForInput("phoneNumber", 'Phone Number')}
-        />
-      </div>
-
+      <BaseInput
+        label="Phone number: "
+        {...createPropsForInput("phoneNumber", 'Phone Number')}
+      />
     </>
   );
 };

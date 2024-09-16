@@ -1,0 +1,1 @@
+export type FieldSetter<T> = <R extends keyof T> (key: R, value: T[R]) => void;
