@@ -1,0 +1,38 @@
+.overview {
+  width: 800px;
+
+  .overviewLabel {
+    font-weight: 600;
+    font-size: 16px;
+    text-transform: uppercase;
+    text-align: start;
+  }
+
+  .overviewContainer {
+    border: solid 1px #000;
+    background: #8eddbc;
+    padding: 25px;
+    width: 100%;
+
+
+    .wrapper {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      text-align: center;
+      text-transform: uppercase;
+      font-weight: 500;
+      font-size: 14px;
+
+      .item {
+        padding: 10px;
+      }
+    }
+  }
+}
+
+
+
+
+
+
+
