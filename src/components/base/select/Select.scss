@@ -1,5 +1,17 @@
-.select {
-  .option {
-    background-color: #4bdfdf;
-  }
+.select-label {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-weight: 500;
+  font-size: 14px;
+  text-transform: uppercase;
+  width: 160px;
+
 }
+
+.base-select {
+  width: 350px;
+  display: flex;
+  flex-direction: column;
+}
+

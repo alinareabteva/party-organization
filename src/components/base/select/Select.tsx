@@ -1,4 +1,3 @@
-
 export interface SelectOption {
   value: string;
   label: string;
@@ -21,35 +20,36 @@ const Select = ({selectedOption, label, onChange, options, allowMultiple = false
 
   const onClick = (event: React.MouseEvent<HTMLOptionElement>) => {
     const {value} = event.currentTarget
-      const selectOption = findOptionByValue(value);
-      if (selectOption) {
-        onChange(selectOption)
-      }
+    const selectOption = findOptionByValue(value);
+    if (selectOption) {
+      onChange(selectOption)
+    }
   }
 
-
-
   return (
-    <label>
-      {label}
-      <select
-        className="base-select"
-        value={selectedOption}
-        onChange={() => {}}
-        multiple={allowMultiple}
-      >
-        {options.map(option => (
-          <option
-            className="base-option"
-            key={option.value}
-            value={option.value}
-            onMouseDown={onClick}
-          >
-            {option.label}
-          </option>
-        ))}
-      </select>
-    </label>
+    <>
+      <label className="select-label">
+        {label}
+      </label>
+        <select
+          className="base-select"
+          value={selectedOption}
+          onChange={() => {
+          }}
+          multiple={allowMultiple}
+        >
+          {options.map(option => (
+            <option
+              className="base-option"
+              key={option.value}
+              value={option.value}
+              onMouseDown={onClick}
+            >
+              {option.label}
+            </option>
+          ))}
+        </select>
+      </>
   );
 };
 

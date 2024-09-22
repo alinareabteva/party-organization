@@ -3,6 +3,7 @@ import {useState, ChangeEvent} from "react";
 import dayjs, {Dayjs} from "dayjs";
 import classNames from "classnames";
 import BaseInput from "../../../components/base/base-input/BaseInput.tsx";
+import {BASE_FORMAT} from "../../../utilities.ts";
 
 interface AboutPartyState {
   partyName: string;
@@ -20,7 +21,6 @@ interface CreatePropsForInput {
   className?: string;
 }
 
-const BASE_FORMAT = "YYYY-MM-DD";
 
 const AboutParty = () => {
   const [state, setState] = useState<AboutPartyState>({
