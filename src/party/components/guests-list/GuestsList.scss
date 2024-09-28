@@ -33,6 +33,13 @@
     font-weight: 600;
     font-size: 16px;
     text-transform: uppercase;
+    cursor: pointer;
+    transition: all .5s ease;
+
+    &.button-add:hover {
+      color: #000;
+      background-color: #30ca8b;
+    }
 
   }
 }

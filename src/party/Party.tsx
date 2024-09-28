@@ -5,8 +5,9 @@ import {v4 as uuidv4} from 'uuid';
 import {Guest, GuestComponentsProps, Gender} from "./components/guests-list/guest/GuestComponent.tsx";
 import {useState} from "react";
 import dayjs from "dayjs";
+import OverViewTable from "./components/overview/OverViewTable.tsx";
 
-interface PartyState {
+export interface PartyState {
   guests: Guest[];
 }
 
@@ -45,11 +46,24 @@ const Party = () => {
     }))
   }
 
+   const deleteGuest = (id: Guest['id']) => {
+    setPartyState((prevState) => ({
+      ...prevState,
+      guests: prevState.guests.filter((guest) => guest.id !== id),
+    }))
+  }
+
   return (
     <form className="form">
       <div className="container">
         <AboutParty/>
-        <GuestsList guestsArray={partyState.guests} onChange={onGuestFieldChange} addGuest={addGuest}/>
+        <GuestsList
+          guestsArray={partyState.guests}
+          onChange={onGuestFieldChange}
+          addGuest={addGuest}
+          deleteGuest={deleteGuest}
+        />
+        <OverViewTable guests={partyState.guests} />
       </div>
     </form>
   );

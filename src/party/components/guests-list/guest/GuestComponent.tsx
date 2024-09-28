@@ -5,6 +5,7 @@ import {ChangeEvent, useMemo} from "react";
 import {v4 as uuidv4} from 'uuid';
 import Select, {SelectOption, SelectProp} from "../../../../components/base/select/Select.tsx";
 import {BASE_DATE_FORMAT} from "../../../../utilities.ts";
+import BaseIcon, {IconNames} from "../../../../components/base/icon/BaseIcon.tsx";
 
 export enum Gender {
   M = 'M',
@@ -27,40 +28,42 @@ interface AlcoholDto {
 }
 
 export const ALCOHOL_NAMES: Array<AlcoholDto> = [
-  { name: "Vodka", id: uuidv4() },
-  { name: "Wine", id: uuidv4() },
-  { name: "Beer", id: uuidv4() },
-  { name: "Sangria", id: uuidv4() },
-  { name: "Champagne", id: uuidv4() },
-  { name: "Rum", id: uuidv4() },
-  { name: "Calvados", id: uuidv4() },
-  { name: "Brandy", id: uuidv4() },
+  {name: "Vodka", id: uuidv4()},
+  {name: "Wine", id: uuidv4()},
+  {name: "Beer", id: uuidv4()},
+  {name: "Sangria", id: uuidv4()},
+  {name: "Champagne", id: uuidv4()},
+  {name: "Rum", id: uuidv4()},
+  {name: "Calvados", id: uuidv4()},
+  {name: "Brandy", id: uuidv4()},
 ];
 
 
 export interface GuestComponentsProps extends Guest {
   onChange: (id: string, partOfGuest: Partial<Guest>) => void;
-
+  onClickDelete: (id: string) => void
 }
 
 const mapAlcoholToOption = (alcohol: AlcoholDto): SelectOption => {
-  return  {
+  return {
     label: alcohol.name,
     value: alcohol.id
   }
 }
 
 
+const GuestComponent = ({id, firstName, lastName, birthDate, gender, onChange, alcohol, onClickDelete}: GuestComponentsProps) => {
 
-
-const GuestComponent = ({id, firstName, lastName, birthDate, gender, onChange, alcohol}:GuestComponentsProps) => {
-
-  const handleChange = ({target: {name, value}} : ChangeEvent<HTMLInputElement>) => {
+  const handleChange = ({target: {name, value}}: ChangeEvent<HTMLInputElement>) => {
     onChange(id, {[name]: value})
   }
 
-  const handleDateChange =  ({target: {name, value}} : ChangeEvent<HTMLInputElement>) => {
+  const handleDateChange = ({target: {name, value}}: ChangeEvent<HTMLInputElement>) => {
     onChange(id, {[name]: dayjs(value, BASE_DATE_FORMAT)})
+  }
+
+  const handleGenderChange = ({target: {value}}: ChangeEvent<HTMLInputElement>) => {
+    onChange(id, {gender: value as Gender})
   }
 
   const alcoholOptions = useMemo(() => {
@@ -75,15 +78,18 @@ const GuestComponent = ({id, firstName, lastName, birthDate, gender, onChange, a
   const alcoholChange: SelectProp['onChange'] = (selectedOption) => {
     const foundAlcohol = ALCOHOL_NAMES.find(alcohol => alcohol.id === selectedOption.value);
     if (foundAlcohol) {
-      const newAlcoholArray = alcohol.includes(foundAlcohol) ? alcohol.filter(a => a.id !== foundAlcohol.id) :  [...alcohol, foundAlcohol]
-
-      onChange(id, {alcohol:newAlcoholArray})
+      const newAlcoholArray = alcohol.includes(foundAlcohol) ? alcohol.filter(a => a.id !== foundAlcohol.id) : [...alcohol, foundAlcohol]
+      onChange(id, {alcohol: newAlcoholArray})
     }
-
   }
 
   return (
     <div className="guest-box">
+      <BaseIcon
+        onClick={() => onClickDelete(id)}
+        size={'badgeIcon'}
+        name={IconNames.Close}
+      />
       <BaseInput
         name="firstName"
         placeholder="First Name"
@@ -111,40 +117,40 @@ const GuestComponent = ({id, firstName, lastName, birthDate, gender, onChange, a
 
       <div className="gender">
         <label className="gender-label">Gender:</label>
-        <fieldset className="radio-group" >
-          <input
-            value={Gender.M}
-            name="gender"
-            type="radio"
-            checked={Gender.M === gender}
-            onChange={handleChange}
-          />
-          <input
-            value={Gender.F}
-            name="gender"
-            type="radio"
-            checked={Gender.F === gender}
-            onChange={handleChange}
-          />
-        </fieldset>
+        <div className="radio-group">
+          <label className="radio-group-label">M
+            <input
+              value={Gender.M}
+              name={`${id}-gender`}
+              type="radio"
+              className="radio-btn-input"
+              checked={Gender.M === gender}
+              onChange={handleGenderChange}
+            />
+          </label>
+
+          <label className="radio-group-label">F
+            <input
+              value={Gender.F}
+              name={`${id}-gender`}
+              type="radio"
+              className="radio-btn-input"
+              checked={Gender.F === gender}
+              onChange={handleGenderChange}
+            />
+          </label>
+
+        </div>
       </div>
 
       <div className="alcohol">
-
         <Select
           label="Alcohol"
           selectedOption={selectedAlcoholOptions}
           options={alcoholOptions}
           allowMultiple
           onChange={alcoholChange}
-          />
-
-        {/*<label className="alcohol-label">Alcohol:</label>*/}
-        {/*<select className="select-alcohol">*/}
-        {/*  <option value="value1">Wine</option>*/}
-        {/*  <option value="value2"> Beer</option>*/}
-        {/*  <option value="value3">Vodka</option>*/}
-        {/*</select>*/}
+        />
       </div>
     </div>
   );

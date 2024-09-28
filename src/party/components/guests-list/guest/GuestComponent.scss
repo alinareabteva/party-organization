@@ -7,36 +7,67 @@
   background: #50bc8e;
   border: solid 1px #000;
   border-radius: 3%;
+  margin-bottom: 3%;
+  position: relative;
+
+  .icon-wrapper {
+    position: absolute;
+    right: 5px;
+    display: block;
+  }
+
+  .base-input {
+    display: flex;
+    width: 350px;
+  }
+
+  .select-label {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-weight: 500;
+    font-size: 14px;
+    text-transform: uppercase;
+    width: 160px;
+  }
+
+  .base-select {
+    display: flex;
+    width: 350px;
+  }
 
   .gender {
     display: flex;
-    width: 200px;
+    width: 700px;
     flex-direction: row;
     align-items: center;
+    justify-content: center;
+    margin-top: 2%;
 
     .gender-label {
       font-weight: 500;
       font-size: 14px;
       text-transform: uppercase;
-      width: 20px;
+      width: 160px;
       display: flex;
     }
 
     .radio-group {
-      width: 80px;
+      width: 350px;
       display: flex;
-      flex-direction: column;
+      flex-direction: row;
 
-      .base-input {
+      .radio-group-label {
         display: flex;
-        width: 35px;
+        flex-direction: row;
+        justify-content: flex-start;
+        width: 50px;
 
-        .label {
+        .radio-btn-input {
           display: flex;
-          font-weight: 500;
-          font-size: 14px;
-          text-transform: uppercase;
+          flex-direction: row;
           width: 20px;
+          cursor: pointer;
         }
       }
     }
@@ -45,27 +76,14 @@
   .alcohol {
     display: flex;
     width: 700px;
+    margin-top: 2%;
     flex-direction: row;
     justify-content: center;
-    padding-bottom: 5px;
 
-    .alcohol-label {
-      font-weight: 500;
-      font-size: 14px;
-      text-transform: uppercase;
-      width: 160px;
-      display: flex;
-      flex-direction: row;
-    }
-
-    .select-alcohol {
-      width: 350px;
+    .base-select {
+      cursor: pointer;
     }
   }
 
-  .base-input {
-    display: flex;
-    width: 350px;
 
-  }
 }
