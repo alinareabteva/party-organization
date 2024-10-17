@@ -10,10 +10,25 @@ export interface OverviewItem {
 export const useOverviewItems = (guests: Array<Guest>): Array<OverviewItem> => {
   return useMemo(() => {
     const now = dayjs();
+
+
+    const countOfAlcohol = guests.reduce((previousValue, currentValue) => {
+      currentValue.alcohol
+        .map(a => a.name)
+        .forEach(alcoholName => {
+          if (Object.prototype.hasOwnProperty.call(previousValue, alcoholName)) {
+            previousValue[alcoholName]++
+          } else {
+            previousValue[alcoholName] = 1
+          }
+        })
+      return previousValue
+    }, {} as Record<string, number>)
+
     return [
       {
         title: "Types of alcohol",
-        value: ""
+        value: Object.entries(countOfAlcohol).map(([alcoholName, countOfPeople]) => `${alcoholName} (${countOfPeople})`).join(", "),
       },
       {
         title: "Quantity of boys",
@@ -37,7 +52,7 @@ export const useOverviewItems = (guests: Array<Guest>): Array<OverviewItem> => {
         title: "Number of people between 20 and 30 years",
         value: guests.filter(guest => {
           const diff = now.diff(guest.birthDate, "year")
-          return  diff >= 20 && diff < 30
+          return diff >= 20 && diff < 30
         }).length
       },
       {
