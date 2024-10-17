@@ -1,11 +1,11 @@
 import "./AboutParty.scss"
-import {useState, ChangeEvent} from "react";
+import {ChangeEvent, SetStateAction} from "react";
 import dayjs, {Dayjs} from "dayjs";
 import classNames from "classnames";
 import BaseInput from "../../../components/base/base-input/BaseInput.tsx";
 import {BASE_FORMAT} from "../../../utilities.ts";
 
-interface AboutPartyState {
+export interface AboutPartyState {
   partyName: string;
   organizerFirstName: string;
   organizerLastName: string;
@@ -20,20 +20,15 @@ interface CreatePropsForInput {
   type?: string;
   className?: string;
 }
+interface AboutPartyProps {
+  aboutPartyState: AboutPartyState;
+  setAboutPartyState: (stateSetter: SetStateAction<AboutPartyState>) => void;
+}
 
-
-const AboutParty = () => {
-  const [state, setState] = useState<AboutPartyState>({
-    partyName: '',
-    organizerFirstName: '',
-    organizerLastName: '',
-    place: '',
-    date: dayjs(),
-    phoneNumber: ''
-  })
+const AboutParty = ({aboutPartyState, setAboutPartyState}:AboutPartyProps) => {
 
   const handleChange = ({target: {id, value}}: ChangeEvent<HTMLInputElement>) => {
-    setState(prevState => ({
+    setAboutPartyState(prevState => ({
       ...prevState,
       [id]: value
     }))
@@ -48,7 +43,7 @@ const AboutParty = () => {
       type,
       placeholder,
       onChange: handleChange,
-      value: state[key]
+      value: aboutPartyState[key]
     }
   }
   const createPropsForInput = (key: CreatePropsForInput["key"], placeholder: CreatePropsForInput["placeholder"]) => {
@@ -57,7 +52,7 @@ const AboutParty = () => {
 
   const handleDateChange = (event: ChangeEvent<HTMLInputElement>) => {
     const date = dayjs(event.target.value, BASE_FORMAT)
-    setState(prevState => ({
+    setAboutPartyState(prevState => ({
       ...prevState,
       date
     }))
@@ -98,7 +93,7 @@ const AboutParty = () => {
         onChange={handleDateChange}
         className="base-input"
         type="date"
-        value={state.date.format(BASE_FORMAT)}
+        value={aboutPartyState.date.format(BASE_FORMAT)}
         label="Date:"
       />
 

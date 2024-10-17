@@ -3,11 +3,12 @@ import {AllHTMLAttributes} from "react";
 import classNames from "classnames";
 
 interface BaseInputProps extends AllHTMLAttributes<HTMLInputElement> {
+  errorMessage?: string;
   value: string;
   label?: string
 }
 
-const BaseInput = ({id, label, type = "text", className = "", ...rest}: BaseInputProps) => {
+const BaseInput = ({id, errorMessage = "", label, type = "text", className = "", ...rest}: BaseInputProps) => {
 
   return (
     <div className="base-input-wrapper">
@@ -21,6 +22,7 @@ const BaseInput = ({id, label, type = "text", className = "", ...rest}: BaseInpu
         })}
         {...rest}
       />
+      {errorMessage && <span className="error">{errorMessage}</span>}
     </div>
   );
 };

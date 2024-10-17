@@ -1,12 +1,16 @@
 import './App.css'
-import Party from "./party/Party.tsx";
+// import Party from "./party/Party.tsx";
+import BaseStateComponent from "./prototype/BaseStateComponent.tsx";
 
-function App() {
+function App( ) {
+
+
   return (
       <div className="App">
-        <Party/>
+        {/*<Party/>*/}
+       <BaseStateComponent />
       </div>
   )
 }
 
-export default App
+export default App;

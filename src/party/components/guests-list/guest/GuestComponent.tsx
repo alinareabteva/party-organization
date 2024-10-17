@@ -2,10 +2,10 @@ import dayjs, {Dayjs} from "dayjs";
 import "./GuestComponent.scss"
 import BaseInput from "../../../../components/base/base-input/BaseInput.tsx";
 import {ChangeEvent, useMemo} from "react";
-import {v4 as uuidv4} from 'uuid';
 import Select, {SelectOption, SelectProp} from "../../../../components/base/select/Select.tsx";
 import {BASE_DATE_FORMAT} from "../../../../utilities.ts";
 import BaseIcon, {IconNames} from "../../../../components/base/icon/BaseIcon.tsx";
+import {ALCOHOL_NAMES} from "../../../constants.ts";
 
 export enum Gender {
   M = 'M',
@@ -22,21 +22,12 @@ export interface Guest {
 }
 
 
-interface AlcoholDto {
+export interface AlcoholDto {
   id: string;
   name: string;
 }
 
-export const ALCOHOL_NAMES: Array<AlcoholDto> = [
-  {name: "Vodka", id: uuidv4()},
-  {name: "Wine", id: uuidv4()},
-  {name: "Beer", id: uuidv4()},
-  {name: "Sangria", id: uuidv4()},
-  {name: "Champagne", id: uuidv4()},
-  {name: "Rum", id: uuidv4()},
-  {name: "Calvados", id: uuidv4()},
-  {name: "Brandy", id: uuidv4()},
-];
+
 
 
 export interface GuestComponentsProps extends Guest {
