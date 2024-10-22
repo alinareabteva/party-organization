@@ -1,11 +1,19 @@
 import "./Party.scss"
 import AboutParty, {AboutPartyState} from "./components/about-party/AboutParty.tsx";
 import GuestsList from "./components/guests-list/GuestsList.tsx";
-import {v4 as uuidv4} from 'uuid';
-import {Gender, Guest, GuestComponentsProps} from "./components/guests-list/guest/GuestComponent.tsx";
+import {
+  Guest,
+  GuestComponentsProps,
+} from "./components/guests-list/guest/GuestComponent.tsx";
 import {SetStateAction, useState} from "react";
 import dayjs from "dayjs";
 import OverViewTable from "./components/overview/OverViewTable.tsx";
+import {ErrorState, validateArray} from "../components/validation";
+import {
+  buildDefaultGuest,
+  buildEmptyGuestErrors,
+  guestValidatorConfig
+} from "./components/guests-list/guest/constants.ts";
 
 
 export interface PartyState {
@@ -13,58 +21,97 @@ export interface PartyState {
   aboutParty: AboutPartyState;
 }
 
+export interface AllPartyState {
+  values: PartyState,
+  errors: {
+    guests: ErrorState<Guest>[]
+    aboutParty: ErrorState<AboutPartyState>
+  }
+}
+
 const Party = () => {
-  const [partyState, setPartyState] = useState<PartyState>({
-    guests: [],
-    aboutParty: {
-      partyName: '',
-      organizerFirstName: '',
-      organizerLastName: '',
-      place: '',
-      date: dayjs(),
-      phoneNumber: ''
+  const [partyState, setPartyState] = useState<AllPartyState>({
+    values: {
+      guests: [],
+      aboutParty: {
+        partyName: '',
+        organizerFirstName: '',
+        organizerLastName: '',
+        place: '',
+        date: dayjs(),
+        phoneNumber: ''
+      }
+    },
+    errors: {
+      guests: [],
+      aboutParty: {
+        partyName: [],
+        organizerFirstName: [],
+        organizerLastName: [],
+        place: [],
+        date: [],
+        phoneNumber: []
+      }
     }
   })
 
   const onGuestFieldChange: GuestComponentsProps['onChange'] = (id, partOfGuest) => {
     setPartyState(prevState => ({
       ...prevState,
-      guests: prevState.guests.map(guest => {
-        if (id === guest.id) {
-          return {
-            ...guest,
-            ...partOfGuest
+      values: {
+        ...prevState.values,
+        guests: prevState.values.guests.map(guest => {
+          if (id === guest.id) {
+            return {
+              ...guest,
+              ...partOfGuest
+            }
           }
-        }
-        return guest
-      }),
+          return guest
+        }),
+      }
 
     }))
   }
 
   const addGuest = () => {
-    setPartyState(prevState => ({
-      ...prevState,
-      guests: [...prevState.guests, {
-        id: uuidv4(),
-        firstName: "",
-        lastName: "",
-        birthDate: dayjs().subtract(18, 'year'),
-        gender: Gender.M,
-        alcohol: []
-      }]
-    }))
+    setPartyState(prevState => {
+      const {errors, isValid} = validateArray(prevState.values.guests, guestValidatorConfig);
+      if (!isValid) {
+        return {
+          ...prevState,
+          errors: {
+            ...prevState.errors,
+            guests: errors
+          }
+        }
+      }
+      return {
+        ...prevState,
+        values: {
+          ...prevState.values,
+          guests: [...prevState.values.guests, buildDefaultGuest()]
+        },
+        errors: {
+          ...prevState.errors,
+          guests: [...errors, buildEmptyGuestErrors()]
+        }
+      }
+    })
   }
 
   const setAboutPartyState = (stateSetter: SetStateAction<AboutPartyState>) => {
 
     setPartyState(prevState => {
-      const aboutPartyState = typeof stateSetter == 'function' ? stateSetter(prevState.aboutParty) : stateSetter;
+      const aboutPartyState = typeof stateSetter == 'function' ? stateSetter(prevState.values.aboutParty) : stateSetter;
       return {
         ...prevState,
-        aboutParty: {
-          ...prevState.aboutParty,
-          ...aboutPartyState
+        values: {
+          ...prevState.values,
+          aboutParty: {
+            ...prevState.values.aboutParty,
+            ...aboutPartyState
+          }
         }
       }
     })
@@ -73,21 +120,25 @@ const Party = () => {
   const deleteGuest = (id: Guest['id']) => {
     setPartyState((prevState) => ({
       ...prevState,
-      guests: prevState.guests.filter((guest) => guest.id !== id),
+      values: {
+        ...prevState.values,
+        guests: prevState.values.guests.filter((guest) => guest.id !== id),
+      }
     }))
   }
 
   return (
     <form className="form">
       <div className="container">
-        <AboutParty aboutPartyState={partyState.aboutParty} setAboutPartyState={setAboutPartyState}/>
+        <AboutParty aboutPartyState={partyState.values.aboutParty} setAboutPartyState={setAboutPartyState}/>
         <GuestsList
-          guestsArray={partyState.guests}
+          guestsArray={partyState.values.guests}
           onChange={onGuestFieldChange}
           addGuest={addGuest}
           deleteGuest={deleteGuest}
+          guestsErrors={partyState.errors.guests}
         />
-        <OverViewTable guests={partyState.guests}/>
+        <OverViewTable guests={partyState.values.guests}/>
       </div>
     </form>
   );
