@@ -4,6 +4,7 @@ import dayjs, {Dayjs} from "dayjs";
 import classNames from "classnames";
 import BaseInput from "../../../components/base/base-input/BaseInput.tsx";
 import {BASE_FORMAT} from "../../../utilities.ts";
+import {ErrorState} from "../../../components/validation";
 
 export interface AboutPartyState {
   partyName: string;
@@ -20,12 +21,13 @@ interface CreatePropsForInput {
   type?: string;
   className?: string;
 }
-interface AboutPartyProps {
+export interface AboutPartyProps {
   aboutPartyState: AboutPartyState;
   setAboutPartyState: (stateSetter: SetStateAction<AboutPartyState>) => void;
+  aboutPartyErrors: ErrorState<AboutPartyState>;
 }
 
-const AboutParty = ({aboutPartyState, setAboutPartyState}:AboutPartyProps) => {
+const AboutParty = ({aboutPartyState, setAboutPartyState, aboutPartyErrors}:AboutPartyProps) => {
 
   const handleChange = ({target: {id, value}}: ChangeEvent<HTMLInputElement>) => {
     setAboutPartyState(prevState => ({
@@ -59,34 +61,40 @@ const AboutParty = ({aboutPartyState, setAboutPartyState}:AboutPartyProps) => {
   }
 
   return (
-    <>
+    <div className="about-party">
       <BaseInput
         label="Name"
         {...createPropsForInput("partyName", 'Enter Party Name')}
+        errorMessage={aboutPartyErrors?.partyName?.join("; ")}
       />
 
       <div className="organizer">
         <label htmlFor="name" className="label">Organizer:</label>
-        <input
-          {...createAllPropsForInput({
-            key: "organizerFirstName",
-            placeholder: 'First Name',
-            className: "organizer-input"
-          })}
-        />
-        <input
-          {...createAllPropsForInput({
-            key: "organizerLastName",
-            placeholder: 'Last Name',
-            className: "organizer-input"
-          })}
-        />
+        <div className="inputs">
+          <BaseInput
+            {...createAllPropsForInput({
+              key: "organizerFirstName",
+              placeholder: 'First Name',
+              className: "organizer-input",
+            })}
+            errorMessage={aboutPartyErrors?.organizerFirstName?.join("; ")}
+          />
+          <BaseInput
+            {...createAllPropsForInput({
+              key: "organizerLastName",
+              placeholder: 'Last Name',
+              className: "organizer-input"
+            })}
+            errorMessage={aboutPartyErrors?.organizerLastName?.join("; ")}
+          />
+        </div>
       </div>
 
 
       <BaseInput
         label="Place:"
         {...createPropsForInput("place", 'Enter Place')}
+        errorMessage={aboutPartyErrors?.place?.join("; ")}
       />
       <BaseInput
         id="date"
@@ -95,13 +103,15 @@ const AboutParty = ({aboutPartyState, setAboutPartyState}:AboutPartyProps) => {
         type="date"
         value={aboutPartyState.date.format(BASE_FORMAT)}
         label="Date:"
+        errorMessage={aboutPartyErrors?.date?.join("; ")}
       />
 
       <BaseInput
         label="Phone number: "
         {...createPropsForInput("phoneNumber", 'Phone Number')}
+        errorMessage={aboutPartyErrors?.phoneNumber?.join("; ")}
       />
-    </>
+    </div>
   );
 };
 

@@ -13,15 +13,22 @@
     text-transform: uppercase;
     width: 160px;
   }
-
-  .base-input {
+  .input-container {
+    width: 400px;
     display: flex;
-    align-items: center;
-    width: 500px;
-    cursor: pointer;
-  }
+    flex-direction: column;
 
-  .error {
-    color: red;
+    .base-input {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      cursor: pointer;
+    }
+
+    .error {
+      color: #ff3333;
+      font-weight: 400;
+      font-size: 14px;
+    }
   }
 }

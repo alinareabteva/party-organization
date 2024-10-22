@@ -5,16 +5,16 @@ import {
   Guest,
   GuestComponentsProps,
 } from "./components/guests-list/guest/GuestComponent.tsx";
-import {SetStateAction, useState} from "react";
+import {MouseEvent, SetStateAction, useState} from "react";
 import dayjs from "dayjs";
 import OverViewTable from "./components/overview/OverViewTable.tsx";
-import {ErrorState, validateArray} from "../components/validation";
+import {ErrorState, validateArray, validateStateFunc} from "../components/validation";
 import {
   buildDefaultGuest,
   buildEmptyGuestErrors,
   guestValidatorConfig
 } from "./components/guests-list/guest/constants.ts";
-
+import {aboutPartyValidatorConfig} from "./components/about-party/constants.ts";
 
 export interface PartyState {
   guests: Guest[];
@@ -54,6 +54,35 @@ const Party = () => {
       }
     }
   })
+
+  const onClickSubmit = (e: MouseEvent) => {
+    e.preventDefault();
+    setPartyState(prevState => {
+      const {errors, isValid} = validateStateFunc(prevState.values.aboutParty, aboutPartyValidatorConfig);
+      if(!isValid) {
+        return {
+          ...prevState,
+          errors: {
+            ...prevState.errors,
+            aboutParty: errors
+          }
+        }
+      }
+      return {
+        ...prevState,
+        values: {
+          ...prevState.values,
+          aboutParty:{
+            ...prevState.values.aboutParty
+          }
+        },
+        errors: {
+          ...prevState.errors,
+          aboutParty: errors
+        }
+      }
+    })
+  }
 
   const onGuestFieldChange: GuestComponentsProps['onChange'] = (id, partOfGuest) => {
     setPartyState(prevState => ({
@@ -130,7 +159,11 @@ const Party = () => {
   return (
     <form className="form">
       <div className="container">
-        <AboutParty aboutPartyState={partyState.values.aboutParty} setAboutPartyState={setAboutPartyState}/>
+        <AboutParty
+          aboutPartyState={partyState.values.aboutParty}
+          setAboutPartyState={setAboutPartyState}
+          aboutPartyErrors={partyState.errors.aboutParty}
+        />
         <GuestsList
           guestsArray={partyState.values.guests}
           onChange={onGuestFieldChange}
@@ -139,6 +172,15 @@ const Party = () => {
           guestsErrors={partyState.errors.guests}
         />
         <OverViewTable guests={partyState.values.guests}/>
+        <div className="button">
+          <button
+            className="button-submit"
+            onClick={onClickSubmit}
+          >
+            Submit
+          </button>
+
+        </div>
       </div>
     </form>
   );

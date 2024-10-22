@@ -6,8 +6,8 @@ export type ErrorState<T extends object> = Record<Partial<keyof T>, Array<string
 
 export type ValidatorConfig<T> = Partial<Record<keyof T, Array<Validator<T>>>>
 
-export function validateStateFunc<T extends object>(state: T, validatorConfig: ValidatorConfig<T>): ErrorState<T> {
-  return Object.keys(state).reduce((acc, key) => {
+export function validateStateFunc<T extends object>(state: T, validatorConfig: ValidatorConfig<T>) {
+  const errors = Object.keys(state).reduce((acc, key) => {
     const typedKey = key as keyof T;
 
     if (!validatorConfig[typedKey]) {
@@ -22,6 +22,10 @@ export function validateStateFunc<T extends object>(state: T, validatorConfig: V
     return acc;
 
   }, {} as ErrorState<T>)
+  return {
+    errors,
+    isValid: Object.values(errors).every((error) => (error as Array<string>).length === 0)
+  }
 }
 
 
@@ -31,7 +35,7 @@ interface ValidateArrayResult<T extends object> {
 }
 
 export function validateArray<T extends object>(array: T[], validatorConfig: ValidatorConfig<T>): ValidateArrayResult<T>  {
-  const errors = array.map((item) => validateStateFunc(item, validatorConfig))
+  const errors = array.map((item) => validateStateFunc(item, validatorConfig).errors)
   return {
     errors,
     isValid: errors.every(error => Object.values(error).every((el => (el as Array<string>).length === 0)))
@@ -87,6 +91,14 @@ export function birthDateValidator<T extends object>(value: T[keyof T]) {
   const regex = /^(0[1-9]|1[0-2]).(0[1-9]|[12][0-9]|3[01]).(\d{4})$/
   if (!regex.test(value?.toString() || "")) {
     return `Invalid Date. The format should be like this: 'DD.MM.YYYY'`
+  }
+  return ''
+}
+
+export function phoneNumberValidator<T extends object>(value: T[keyof T]) {
+  const regex = /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/
+  if (!regex.test(value?.toString() || "")) {
+    return `Invalid Phone Number`
   }
   return ''
 }

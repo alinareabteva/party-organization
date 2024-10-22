@@ -13,16 +13,18 @@ const BaseInput = ({id, errorMessage = "", label, type = "text", className = "",
   return (
     <div className="base-input-wrapper">
       {label && <label htmlFor={id} className="label">{label} </label>}
-      <input
-        id={id}
-        type={type}
-        className={classNames({
-          'base-input': true,
-          [className]: !!className,
-        })}
-        {...rest}
-      />
-      {errorMessage && <span className="error">{errorMessage}</span>}
+      <div className="input-container">
+        <input
+          id={id}
+          type={type}
+          className={classNames({
+            'base-input': true,
+            [className]: !!className,
+          })}
+          {...rest}
+        />
+        {errorMessage && <span className="error">{errorMessage}</span>}
+      </div>
     </div>
   );
 };
