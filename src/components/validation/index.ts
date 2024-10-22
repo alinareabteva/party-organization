@@ -4,7 +4,7 @@ export type Validator<T> = (value: T[keyof T]) => string;
 export type ErrorState<T extends object> = Record<Partial<keyof T>, Array<string>>
 
 
-export type ValidatorConfig<T> = Record<Partial<keyof T>, Array<Validator<T>>>
+export type ValidatorConfig<T> = Partial<Record<keyof T, Array<Validator<T>>>>
 
 export function validateStateFunc<T extends object>(state: T, validatorConfig: ValidatorConfig<T>): ErrorState<T> {
   return Object.keys(state).reduce((acc, key) => {
@@ -24,6 +24,19 @@ export function validateStateFunc<T extends object>(state: T, validatorConfig: V
   }, {} as ErrorState<T>)
 }
 
+
+interface ValidateArrayResult<T extends object> {
+  errors: ErrorState<T>[];
+  isValid: boolean;
+}
+
+export function validateArray<T extends object>(array: T[], validatorConfig: ValidatorConfig<T>): ValidateArrayResult<T>  {
+  const errors = array.map((item) => validateStateFunc(item, validatorConfig))
+  return {
+    errors,
+    isValid: errors.every(error => Object.values(error).every((el => (el as Array<string>).length === 0)))
+  }
+}
 
 export function isNotEmptyValidator<T extends object>(value: T[keyof T]) {
   if (!value) {
@@ -78,10 +91,5 @@ export function birthDateValidator<T extends object>(value: T[keyof T]) {
   return ''
 }
 
-export function onlyAbbreviationValidator<T extends object>(value: T[keyof T]) {
-  if ((/[a-z]/).test(value?.toString() || "")) {
-    return `Should be only Abbreviation`
-  }
-  return ''
-}
+
 

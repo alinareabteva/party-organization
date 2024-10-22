@@ -1,0 +1,47 @@
+.people {
+  width: 100%;
+  display: flex;
+
+  .peopleLabel {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-weight: 500;
+    font-size: 14px;
+    text-transform: uppercase;
+    width: 160px;
+  }
+
+  .peopleList {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    overflow-y: scroll;
+    border: solid 2px #50bc8e;
+    padding: 20px;
+    height: 37vh;
+  }
+
+  .button-add {
+    display: flex;
+    width: 200px;
+    height: 50px;
+    justify-content: center;
+    align-items: center;
+    float: right;
+    margin-top: 2%;
+    background: #79d38a;
+    border: none;
+    font-weight: 600;
+    font-size: 14px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all .5s ease;
+
+    &.button-add:hover {
+      color: #000;
+      background-color: #30ca8b;
+    }
+  }
+}

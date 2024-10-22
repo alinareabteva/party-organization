@@ -1,15 +1,14 @@
 import './App.css'
-// import Party from "./party/Party.tsx";
-import BaseStateComponent from "./prototype/BaseStateComponent.tsx";
+import Party from "./party/Party.tsx";
 
-function App( ) {
+
+function App() {
 
 
   return (
-      <div className="App">
-        {/*<Party/>*/}
-       <BaseStateComponent />
-      </div>
+    <div className="App">
+      <Party/>
+    </div>
   )
 }
 

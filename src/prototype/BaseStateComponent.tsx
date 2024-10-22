@@ -1,5 +1,6 @@
-import {ChangeEvent, MouseEvent, useState} from 'react';
+import {ChangeEvent} from 'react';
 import BaseInput from "../components/base/base-input/BaseInput.tsx";
+import "./BaseStateComponent.scss"
 import {
   ErrorState,
   isNotEmptyValidator,
@@ -7,13 +8,12 @@ import {
   isNotBiggerThanValidator,
   firstCharIsCapitalLetterValidator,
   onlyLettersValidator,
-  birthDateValidator,
-  onlyAbbreviationValidator,
-  validateStateFunc,
+  // birthDateValidator,
+  // validateStateFunc,
   ValidatorConfig,
-} from "./validation";
+} from "../components/validation/index.ts";
 
-interface FormState {
+export interface Person {
   name: string;
   surname: string;
   dateOfBirth: string;
@@ -22,91 +22,68 @@ interface FormState {
 }
 
 
-const formValidatorConfig: ValidatorConfig<FormState> = {
+export const formValidatorConfig: ValidatorConfig<Person> = {
   name: [
-    isNotEmptyValidator<FormState>,
-    isNotLessThanValidator<FormState>(5),
-    isNotBiggerThanValidator<FormState>(20),
-    firstCharIsCapitalLetterValidator<FormState>(),
-    onlyLettersValidator<FormState>("Name")
+    isNotEmptyValidator<Person>,
+    isNotLessThanValidator<Person>(5),
+    isNotBiggerThanValidator<Person>(20),
+    firstCharIsCapitalLetterValidator<Person>(),
+    onlyLettersValidator<Person>("Name")
   ],
   surname: [
-    isNotEmptyValidator<FormState>,
-    isNotLessThanValidator<FormState>(5),
-    isNotBiggerThanValidator<FormState>(25),
-    firstCharIsCapitalLetterValidator<FormState>(),
-    onlyLettersValidator<FormState>("Surname")
+    isNotEmptyValidator<Person>,
+    isNotLessThanValidator<Person>(5),
+    isNotBiggerThanValidator<Person>(25),
+    firstCharIsCapitalLetterValidator<Person>(),
+    onlyLettersValidator<Person>("Surname")
   ],
   dateOfBirth: [
-    isNotEmptyValidator<FormState>,
-    birthDateValidator<FormState>
+    isNotEmptyValidator<Person>,
+    //birthDateValidator<Person>
 
   ],
   college: [
-    isNotEmptyValidator<FormState>,
-    isNotLessThanValidator<FormState>(2),
-    isNotBiggerThanValidator<FormState>(25),
-    onlyAbbreviationValidator<FormState>
+    isNotEmptyValidator<Person>,
+    isNotLessThanValidator<Person>(2),
+    isNotBiggerThanValidator<Person>(25),
   ],
   animal: [
-    isNotEmptyValidator<FormState>,
-    isNotLessThanValidator<FormState>(1),
-    isNotBiggerThanValidator<FormState>(25)
+    isNotEmptyValidator<Person>,
+    isNotLessThanValidator<Person>(1),
+    isNotBiggerThanValidator<Person>(25)
   ]
 }
 
+interface BaseStateComponentProps {
+  index: number;
+  person: Person;
+  personErrors: ErrorState<Person>;
+  onChange: (part: Partial<Person>, index: number) => void;
+}
 
-const BaseStateComponent = () => {
-  const [state, setAppState] = useState<FormState>({
-    name: "Alina",
-    surname: "Bolbecova",
-    dateOfBirth: "01.03.1999",
-    college: "USM",
-    animal: "dog"
-  })
-
-  const [errorState, setErrorState] = useState<ErrorState<FormState>>({
-    name: new Array<string>(),
-    surname: new Array<string>(),
-    dateOfBirth: new Array<string>(),
-    college: new Array<string>(),
-    animal: new Array<string>(),
-  })
+const BaseStateComponent = ({index, person, personErrors, onChange}: BaseStateComponentProps) => {
 
 
   const handleInputChange = ({target: {name, value}}: ChangeEvent<HTMLInputElement>) => {
-    setAppState(prevState => ({
-        ...prevState,
-        [name]: value,
-      })
-    );
+    onChange ({
+      [name]: value,
+    }, index)
   }
 
-  const onClickCheck = (e: MouseEvent) => {
-    e.preventDefault();
-
-    const validationREs = validateStateFunc(state, formValidatorConfig);
-
-    setErrorState(prevState => ({
-      ...prevState,
-      ...validationREs
-    }));
-  }
 
   return (
     <div>
-      <BaseInput value={state.name} name="name" label={"Name"} onChange={handleInputChange}
-                 errorMessage={errorState.name.join("; ")}/>
-      <BaseInput value={state.surname} name="surname" label={"Surname"} onChange={handleInputChange}
-                 errorMessage={errorState.surname.join("; ")}/>
-      <BaseInput type="date" value={state.dateOfBirth} name="dateOfBirth" label={"Date Of Birth"}
+      <BaseInput value={person.name} name="name" label={"Name"} onChange={handleInputChange}
+                 errorMessage={personErrors.name.join("; ")}/>
+      <BaseInput value={person.surname} name="surname" label={"Surname"} onChange={handleInputChange}
+                 errorMessage={personErrors.surname.join("; ")}/>
+      <BaseInput type="date" value={person.dateOfBirth} name="dateOfBirth" label={"Date Of Birth"}
                  onChange={handleInputChange}
-                 errorMessage={errorState.dateOfBirth.join("; ")}/>
-      <BaseInput value={state.college} name="college" label={"College"} onChange={handleInputChange}
-                 errorMessage={errorState.college.join("; ")}/>
-      <BaseInput value={state.animal} name="animal" label={"Animal"} onChange={handleInputChange}
-                 errorMessage={errorState.animal.join("; ")}/>
-      <button onClick={onClickCheck}>Check</button>
+                 errorMessage={personErrors.dateOfBirth.join("; ")}/>
+      <BaseInput value={person.college} name="college" label={"College"} onChange={handleInputChange}
+                 errorMessage={personErrors.college.join("; ")}/>
+      <BaseInput value={person.animal} name="animal" label={"Animal"} onChange={handleInputChange}
+                 errorMessage={personErrors.animal.join("; ")}/>
     </div>
   );
 };
