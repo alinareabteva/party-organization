@@ -1,5 +1,5 @@
 import "./AboutParty.scss"
-import {ChangeEvent, SetStateAction} from "react";
+import {ChangeEvent} from "react";
 import dayjs, {Dayjs} from "dayjs";
 import classNames from "classnames";
 import BaseInput from "../../../components/base/base-input/BaseInput.tsx";
@@ -21,19 +21,19 @@ interface CreatePropsForInput {
   type?: string;
   className?: string;
 }
+
 export interface AboutPartyProps {
   aboutPartyState: AboutPartyState;
-  setAboutPartyState: (stateSetter: SetStateAction<AboutPartyState>) => void;
+  setAboutPartyState: (part: Partial<AboutPartyState>) => void;
   aboutPartyErrors: ErrorState<AboutPartyState>;
 }
 
-const AboutParty = ({aboutPartyState, setAboutPartyState, aboutPartyErrors}:AboutPartyProps) => {
+const AboutParty = ({aboutPartyState, setAboutPartyState, aboutPartyErrors}: AboutPartyProps) => {
 
   const handleChange = ({target: {id, value}}: ChangeEvent<HTMLInputElement>) => {
-    setAboutPartyState(prevState => ({
-      ...prevState,
+    setAboutPartyState({
       [id]: value
-    }))
+    })
   }
 
   const createAllPropsForInput = ({key, placeholder, type = "text", className = ""}: CreatePropsForInput) => {
@@ -53,11 +53,9 @@ const AboutParty = ({aboutPartyState, setAboutPartyState, aboutPartyErrors}:Abou
   }
 
   const handleDateChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const date = dayjs(event.target.value, BASE_FORMAT)
-    setAboutPartyState(prevState => ({
-      ...prevState,
-      date
-    }))
+    setAboutPartyState({
+      date: dayjs(event.target.value, BASE_FORMAT)
+    })
   }
 
   return (
