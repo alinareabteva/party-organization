@@ -58,27 +58,24 @@ const Party = () => {
   const onClickSubmit = (e: MouseEvent) => {
     e.preventDefault();
     setPartyState(prevState => {
-      const {errors, isValid} = validateStateFunc(prevState.values.aboutParty, aboutPartyValidatorConfig);
-      if(!isValid) {
+      const {errors: aboutPartyErrors, isValid: isValidAboutPartyErrors} = validateStateFunc(prevState.values.aboutParty, aboutPartyValidatorConfig);
+      const {errors: guestsErrors, isValid: isValidGuestsErrors} = validateArray(prevState.values.guests, guestValidatorConfig)
+      if(!isValidAboutPartyErrors || !isValidGuestsErrors) {
         return {
           ...prevState,
           errors: {
             ...prevState.errors,
-            aboutParty: errors
+            aboutParty: aboutPartyErrors,
+            guests: guestsErrors,
           }
         }
       }
       return {
         ...prevState,
-        values: {
-          ...prevState.values,
-          aboutParty:{
-            ...prevState.values.aboutParty
-          }
-        },
         errors: {
           ...prevState.errors,
-          aboutParty: errors
+          aboutParty: aboutPartyErrors,
+          guests: guestsErrors,
         }
       }
     })
@@ -175,6 +172,7 @@ const Party = () => {
         <div className="button">
           <button
             className="button-submit"
+            disabled={partyState.values.guests.length === 0}
             onClick={onClickSubmit}
           >
             Submit
