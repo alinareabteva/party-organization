@@ -20,6 +20,8 @@ export enum PartyActionType {
   SET_ABOUT_PARTY_STATE = "SET_ABOUT_PARTY_STATE",
   ADD_GUEST = "ADD_GUEST",
   CHANGE_GUEST = "CHANGE_GUEST",
+  DELETE_GUEST = "DELETE_GUEST",
+  SUBMIT_FORM = "SUBMIT_FORM",
 }
 
 
@@ -28,4 +30,5 @@ export interface PartyAction<Type extends PartyActionType, Payload> {
   payload: Payload;
 }
 
-export type ActionFunc< Type extends PartyActionType, Payload> =  (t: Payload) => PartyAction<Type, Payload>;
+export type ActionFuncWithPayload<Type extends PartyActionType, Payload> = (t: Payload) => PartyAction<Type, Payload>;
+export type ActionVoidFunction<Type extends PartyActionType, Payload> = (() => PartyAction<Type, Payload>);

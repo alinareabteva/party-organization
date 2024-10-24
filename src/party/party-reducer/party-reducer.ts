@@ -7,7 +7,8 @@ import {
 } from "../components/guests-list/guest/constants.ts";
 import {PartyActionType, PartyReducerState} from "./types.ts";
 import {AvailablePartyAction} from "./actions.ts";
-import {validateArray} from "../../components/validation";
+import {validateArray, validateStateFunc} from "../../components/validation";
+import {aboutPartyValidatorConfig} from "../components/about-party/constants.ts";
 
 
 export const INITIAL_STATE: PartyReducerState = {
@@ -94,6 +95,48 @@ export const partyReducer: Reducer<PartyReducerState, AvailablePartyAction> = (s
         }
       }
     }
+
+    case PartyActionType.DELETE_GUEST: {
+      const {id} = action.payload;
+      return {
+        ...state,
+        values: {
+          ...state.values,
+          guests: state.values.guests
+            .filter((guest) => guest.id !== id),
+        }
+      }
+    }
+
+    case PartyActionType.SUBMIT_FORM: {
+      const {
+        errors: aboutPartyErrors,
+        isValid: isValidAboutPartyErrors
+      } = validateStateFunc(state.values.aboutParty, aboutPartyValidatorConfig);
+      const {
+        errors: guestsErrors,
+        isValid: isValidGuestsErrors
+      } = validateArray(state.values.guests, guestValidatorConfig)
+      if (!isValidAboutPartyErrors || !isValidGuestsErrors) {
+        return {
+          ...state,
+          errors: {
+            ...state.errors,
+            aboutParty: aboutPartyErrors,
+            guests: guestsErrors,
+          }
+        }
+      }
+      return {
+        ...state,
+        errors: {
+          ...state.errors,
+          aboutParty: aboutPartyErrors,
+          guests: guestsErrors,
+        }
+      }
+    }
+
     default:
       return state;
   }

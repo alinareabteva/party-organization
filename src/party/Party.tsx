@@ -1,20 +1,18 @@
 import "./Party.scss"
 import AboutParty, {AboutPartyState} from "./components/about-party/AboutParty.tsx";
 import GuestsList from "./components/guests-list/GuestsList.tsx";
-import {
-  Guest,
-  GuestComponentsProps,
-} from "./components/guests-list/guest/GuestComponent.tsx";
-import {MouseEvent, SetStateAction, useState} from "react";
-import dayjs from "dayjs";
+import {Guest, GuestComponentsProps,} from "./components/guests-list/guest/GuestComponent.tsx";
+import {MouseEvent, useReducer} from "react";
 import OverViewTable from "./components/overview/OverViewTable.tsx";
-import {ErrorState, validateArray, validateStateFunc} from "../components/validation";
+import {ErrorState} from "../components/validation";
+import {INITIAL_STATE, partyReducer} from "./party-reducer/party-reducer.ts";
 import {
-  buildDefaultGuest,
-  buildEmptyGuestErrors,
-  guestValidatorConfig
-} from "./components/guests-list/guest/constants.ts";
-import {aboutPartyValidatorConfig} from "./components/about-party/constants.ts";
+  addNewGuestAction,
+  changeGuest,
+  deleteGuestAction,
+  setAboutPartyStateAction,
+  submitFormAction
+} from "./party-reducer/actions.ts";
 
 export interface PartyState {
   guests: Guest[];
@@ -30,127 +28,29 @@ export interface AllPartyState {
 }
 
 const Party = () => {
-  const [partyState, setPartyState] = useState<AllPartyState>({
-    values: {
-      guests: [],
-      aboutParty: {
-        partyName: '',
-        organizerFirstName: '',
-        organizerLastName: '',
-        place: '',
-        date: dayjs(),
-        phoneNumber: ''
-      }
-    },
-    errors: {
-      guests: [],
-      aboutParty: {
-        partyName: [],
-        organizerFirstName: [],
-        organizerLastName: [],
-        place: [],
-        date: [],
-        phoneNumber: []
-      }
-    }
-  })
 
-  const onClickSubmit = (e: MouseEvent) => {
-    e.preventDefault();
-    setPartyState(prevState => {
-      const {errors: aboutPartyErrors, isValid: isValidAboutPartyErrors} = validateStateFunc(prevState.values.aboutParty, aboutPartyValidatorConfig);
-      const {errors: guestsErrors, isValid: isValidGuestsErrors} = validateArray(prevState.values.guests, guestValidatorConfig)
-      if(!isValidAboutPartyErrors || !isValidGuestsErrors) {
-        return {
-          ...prevState,
-          errors: {
-            ...prevState.errors,
-            aboutParty: aboutPartyErrors,
-            guests: guestsErrors,
-          }
-        }
-      }
-      return {
-        ...prevState,
-        errors: {
-          ...prevState.errors,
-          aboutParty: aboutPartyErrors,
-          guests: guestsErrors,
-        }
-      }
-    })
-  }
+  const [partyState, dispatch] = useReducer(partyReducer, INITIAL_STATE)
 
-  const onGuestFieldChange: GuestComponentsProps['onChange'] = (id, partOfGuest) => {
-    setPartyState(prevState => ({
-      ...prevState,
-      values: {
-        ...prevState.values,
-        guests: prevState.values.guests.map(guest => {
-          if (id === guest.id) {
-            return {
-              ...guest,
-              ...partOfGuest
-            }
-          }
-          return guest
-        }),
-      }
 
-    }))
+  const setAboutPartyState = (aboutParty: Partial<AboutPartyState>) => {
+    dispatch(setAboutPartyStateAction(aboutParty))
   }
 
   const addGuest = () => {
-    setPartyState(prevState => {
-      const {errors, isValid} = validateArray(prevState.values.guests, guestValidatorConfig);
-      if (!isValid) {
-        return {
-          ...prevState,
-          errors: {
-            ...prevState.errors,
-            guests: errors
-          }
-        }
-      }
-      return {
-        ...prevState,
-        values: {
-          ...prevState.values,
-          guests: [...prevState.values.guests, buildDefaultGuest()]
-        },
-        errors: {
-          ...prevState.errors,
-          guests: [...errors, buildEmptyGuestErrors()]
-        }
-      }
-    })
+    dispatch(addNewGuestAction({}))
   }
 
-  const setAboutPartyState = (stateSetter: SetStateAction<AboutPartyState>) => {
-
-    setPartyState(prevState => {
-      const aboutPartyState = typeof stateSetter == 'function' ? stateSetter(prevState.values.aboutParty) : stateSetter;
-      return {
-        ...prevState,
-        values: {
-          ...prevState.values,
-          aboutParty: {
-            ...prevState.values.aboutParty,
-            ...aboutPartyState
-          }
-        }
-      }
-    })
+  const onGuestFieldChange: GuestComponentsProps['onChange'] = (id, partOfGuest) => {
+    dispatch(changeGuest({id, ...partOfGuest}))
   }
 
-  const deleteGuest = (id: Guest['id']) => {
-    setPartyState((prevState) => ({
-      ...prevState,
-      values: {
-        ...prevState.values,
-        guests: prevState.values.guests.filter((guest) => guest.id !== id),
-      }
-    }))
+  const deleteGuest: GuestComponentsProps['onClickDelete'] = (id) => {
+    dispatch(deleteGuestAction({id}))
+  }
+
+  const onClickSubmit = (e: MouseEvent) => {
+    e.preventDefault();
+    dispatch(submitFormAction())
   }
 
   return (
