@@ -1,13 +1,15 @@
-import {Guest} from "../guests-list/guest/GuestComponent.tsx";
-import {useMemo} from "react";
+import {useContext, useMemo} from "react";
 import dayjs from "dayjs";
+import {PartyContext} from "../../party-context/PartyContext.tsx";
 
 export interface OverviewItem {
   title: string;
   value: string | number;
 }
 
-export const useOverviewItems = (guests: Array<Guest>): Array<OverviewItem> => {
+export const useOverviewItems = (): Array<OverviewItem> => {
+  const {partyState: {values: {guests}}} = useContext(PartyContext)
+
   return useMemo(() => {
     const now = dayjs();
 

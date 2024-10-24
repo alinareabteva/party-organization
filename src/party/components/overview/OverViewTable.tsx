@@ -1,6 +1,5 @@
 import "./OverViewTable.scss"
 import {OverviewItem, useOverviewItems} from "./useOverviewItems.ts";
-import {Guest} from "../guests-list/guest/GuestComponent.tsx";
 
 type OverviewItemProps = OverviewItem;
 
@@ -12,12 +11,9 @@ const OverviewItemComponent = ({title, value}: OverviewItemProps) => {
     </div>
   )
 }
-interface OverViewTableProps {
-  guests: Array<Guest>;
-}
 
-const OverViewTable = ({guests}: OverViewTableProps) => {
-  const overviewItems = useOverviewItems(guests)
+const OverViewTable = () => {
+  const overviewItems = useOverviewItems()
 
   return (
     <div className="overview">

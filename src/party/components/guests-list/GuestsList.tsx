@@ -1,23 +1,16 @@
 import "./GuestsList.scss"
-import {MouseEvent} from "react"
-import GuestComponent, {Guest, GuestComponentsProps} from "./guest/GuestComponent.tsx";
-import {ErrorState} from "../../../components/validation";
+import {MouseEvent, useContext} from "react"
+import GuestComponent from "./guest/GuestComponent.tsx";
+import {PartyContext} from "../../party-context/PartyContext.tsx";
 
-interface GuestsListProps {
-  guestsArray: Guest[];
-  guestsErrors: ErrorState<Guest>[];
-  onChange: GuestComponentsProps['onChange'];
-  addGuest: () => void;
-  deleteGuest: (id: string) => void;
-}
 
-const GuestsList = ({
-                      guestsArray,
-                      guestsErrors,
-                      onChange,
-                      addGuest,
-                      deleteGuest
-                    }: GuestsListProps) => {
+const GuestsList = () => {
+  const {
+    addGuest,
+    deleteGuest,
+    onGuestFieldChange,
+    partyState: {values: {guests: guestsArray}, errors: {guests: guestsErrors}}
+  } = useContext(PartyContext)
 
   const handleClickGuest = (e: MouseEvent) => {
     e.preventDefault();
@@ -36,7 +29,7 @@ const GuestsList = ({
           <GuestComponent
             key={guest.id}
             {...guest}
-            onChange={onChange}
+            onChange={onGuestFieldChange}
             onClickDelete={onClickDelete}
             errors={guestsErrors[index]}
           />

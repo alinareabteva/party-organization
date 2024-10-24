@@ -1,10 +1,10 @@
 import "./AboutParty.scss"
-import {ChangeEvent} from "react";
+import {ChangeEvent, useContext} from "react";
 import dayjs, {Dayjs} from "dayjs";
 import classNames from "classnames";
 import BaseInput from "../../../components/base/base-input/BaseInput.tsx";
 import {BASE_FORMAT} from "../../../utilities.ts";
-import {ErrorState} from "../../../components/validation";
+import {PartyContext} from "../../party-context/PartyContext.tsx";
 
 export interface AboutPartyState {
   partyName: string;
@@ -22,13 +22,15 @@ interface CreatePropsForInput {
   className?: string;
 }
 
-export interface AboutPartyProps {
-  aboutPartyState: AboutPartyState;
-  setAboutPartyState: (part: Partial<AboutPartyState>) => void;
-  aboutPartyErrors: ErrorState<AboutPartyState>;
-}
+const AboutParty = () => {
 
-const AboutParty = ({aboutPartyState, setAboutPartyState, aboutPartyErrors}: AboutPartyProps) => {
+  const {
+    setAboutPartyState,
+    partyState: {
+      values: {aboutParty},
+      errors: {aboutParty: aboutPartyErrors}
+    }
+  } = useContext(PartyContext)
 
   const handleChange = ({target: {id, value}}: ChangeEvent<HTMLInputElement>) => {
     setAboutPartyState({
@@ -45,7 +47,7 @@ const AboutParty = ({aboutPartyState, setAboutPartyState, aboutPartyErrors}: Abo
       type,
       placeholder,
       onChange: handleChange,
-      value: aboutPartyState[key]
+      value: aboutParty[key]
     }
   }
   const createPropsForInput = (key: CreatePropsForInput["key"], placeholder: CreatePropsForInput["placeholder"]) => {
@@ -99,7 +101,7 @@ const AboutParty = ({aboutPartyState, setAboutPartyState, aboutPartyErrors}: Abo
         onChange={handleDateChange}
         className="base-input"
         type="date"
-        value={aboutPartyState.date.format(BASE_FORMAT)}
+        value={aboutParty.date.format(BASE_FORMAT)}
         label="Date:"
         errorMessage={aboutPartyErrors?.date?.join("; ")}
       />
