@@ -2,10 +2,15 @@ html {
   background: #b5e1d0;
   width: 100%;
 
+  body {
+    position: relative;
+  }
+
   #root {
     display: flex;
     width: 100%;
     justify-content: center;
     margin-bottom: 2%;
+    position: relative;
   }
 }

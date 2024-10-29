@@ -3,7 +3,7 @@ import {INITIAL_STATE, partyReducer} from "../party-reducer/party-reducer.ts";
 import {AboutPartyState} from "../components/about-party/AboutParty.tsx";
 import {
   addNewGuestAction,
-  changeGuest,
+  changeGuest, closeModalAction,
   deleteGuestAction,
   setAboutPartyStateAction,
   submitFormAction
@@ -12,12 +12,13 @@ import {Guest, GuestComponentsProps} from "../components/guests-list/guest/Guest
 import {PartyReducerState} from "../party-reducer/types.ts";
 
 interface PartyContextValue {
-  partyState: PartyReducerState
-  setAboutPartyState: (aboutParty: Partial<AboutPartyState>) => void
-  addGuest: () => void
-  onGuestFieldChange: (id: string, partOfGuest: Partial<Guest>) => void
-  deleteGuest: (id: string) => void
-  onClickSubmit: (e: MouseEvent) => void
+  partyState: PartyReducerState;
+  setAboutPartyState: (aboutParty: Partial<AboutPartyState>) => void;
+  addGuest: () => void;
+  onGuestFieldChange: (id: string, partOfGuest: Partial<Guest>) => void;
+  deleteGuest: (id: string) => void;
+  onClickSubmit: (e: MouseEvent) => void;
+  closeModal: () => void;
 }
 
 export const PartyContext = React.createContext<PartyContextValue>({} as PartyContextValue);
@@ -48,6 +49,10 @@ const PartyContextProvider: FunctionComponent<PropsWithChildren> = ({children}) 
     dispatch(submitFormAction())
   }
 
+  const closeModal = () => {
+    dispatch(closeModalAction())
+  }
+
   return (
     <PartyContext.Provider
       value={{
@@ -56,7 +61,8 @@ const PartyContextProvider: FunctionComponent<PropsWithChildren> = ({children}) 
         addGuest,
         onGuestFieldChange,
         deleteGuest,
-        onClickSubmit
+        onClickSubmit,
+        closeModal
       }}
     >
       {children}

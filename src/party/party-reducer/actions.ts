@@ -18,9 +18,9 @@ interface AddNewGuestActionProps {
 
 type AddNewGuestActionReturnType = PartyAction<PartyActionType.ADD_GUEST, AddNewGuestActionProps>;
 export const addNewGuestAction: ActionFuncWithPayload<AddNewGuestActionReturnType['type'], AddNewGuestActionReturnType['payload']> = ({
-                                                                                                                             guest = buildDefaultGuest(),
-                                                                                                                             error = buildEmptyGuestErrors()
-                                                                                                                           }) => {
+                                                                                                                                        guest = buildDefaultGuest(),
+                                                                                                                                        error = buildEmptyGuestErrors()
+                                                                                                                                      }) => {
   return {
     type: PartyActionType.ADD_GUEST,
     payload: {
@@ -62,9 +62,16 @@ export const submitFormAction: ActionVoidFunction<SubmitFormActionReturnType['ty
   payload: null
 })
 
+type CloseModalActionReturnType = PartyAction<PartyActionType.CLOSE_MODAL, null>
+
+export const closeModalAction: ActionVoidFunction<CloseModalActionReturnType['type'], CloseModalActionReturnType['payload']> = () => ({
+  type: PartyActionType.CLOSE_MODAL,
+  payload: null
+})
 
 export type AvailablePartyAction = SetAboutPartyStateActionReturnType
   | AddNewGuestActionReturnType
   | ChangeGuestActionReturnType
   | DeleteGuestActionReturnType
   | SubmitFormActionReturnType
+  | CloseModalActionReturnType

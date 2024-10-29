@@ -13,6 +13,9 @@ export interface PartyReducerState {
   errors: {
     guests: ErrorState<Guest>[]
     aboutParty: ErrorState<AboutPartyState>
+  },
+  modal: {
+    isOpen: boolean,
   }
 }
 
@@ -22,6 +25,7 @@ export enum PartyActionType {
   CHANGE_GUEST = "CHANGE_GUEST",
   DELETE_GUEST = "DELETE_GUEST",
   SUBMIT_FORM = "SUBMIT_FORM",
+  CLOSE_MODAL = "CLOSE_MODAL",
 }
 
 

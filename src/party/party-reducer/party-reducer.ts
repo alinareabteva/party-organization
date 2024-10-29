@@ -33,6 +33,10 @@ export const INITIAL_STATE: PartyReducerState = {
       date: [],
       phoneNumber: []
     }
+  },
+  modal: {
+    isOpen: true,
+
   }
 }
 
@@ -113,10 +117,12 @@ export const partyReducer: Reducer<PartyReducerState, AvailablePartyAction> = (s
         errors: aboutPartyErrors,
         isValid: isValidAboutPartyErrors
       } = validateStateFunc(state.values.aboutParty, aboutPartyValidatorConfig);
+
       const {
         errors: guestsErrors,
         isValid: isValidGuestsErrors
       } = validateArray(state.values.guests, guestValidatorConfig)
+
       if (!isValidAboutPartyErrors || !isValidGuestsErrors) {
         return {
           ...state,
@@ -133,6 +139,20 @@ export const partyReducer: Reducer<PartyReducerState, AvailablePartyAction> = (s
           ...state.errors,
           aboutParty: aboutPartyErrors,
           guests: guestsErrors,
+        },
+        modal: {
+          ...state.modal,
+          isOpen: true
+        }
+      }
+    }
+
+    case PartyActionType.CLOSE_MODAL: {
+      return {
+        ...state,
+        modal: {
+          ...state.modal,
+          isOpen: false
         }
       }
     }
