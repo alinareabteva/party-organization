@@ -35,7 +35,7 @@ export const INITIAL_STATE: PartyReducerState = {
     }
   },
   modal: {
-    isOpen: true,
+    isOpen: false,
 
   }
 }
