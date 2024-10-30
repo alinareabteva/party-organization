@@ -2,22 +2,28 @@ import dayjs, {Dayjs} from "dayjs";
 import "./GuestComponent.scss"
 import BaseInput from "../../../../components/base/base-input/BaseInput.tsx";
 import {ChangeEvent, useMemo} from "react";
-import Select, {SelectOption, SelectProp} from "../../../../components/base/select/Select.tsx";
-import {BASE_DATE_FORMAT} from "../../../../utilities.ts";
+import BaseSelect, {SelectOption} from "../../../../components/base/base-select/BaseSelect.tsx";
 import BaseIcon, {IconNames} from "../../../../components/base/icon/BaseIcon.tsx";
 import {ALCOHOL_NAMES} from "../../../constants.ts";
 import {ErrorState} from "../../../../components/validation";
+import {DatePicker} from "@mui/x-date-pickers";
+import {FormControl, FormControlLabel, FormLabel, InputLabel, Radio, RadioGroup} from "@mui/material";
+import {SelectChangeEvent} from "@mui/material/Select";
 
 export enum Gender {
   M = 'M',
   F = 'F'
 }
 
+const MIN_DATE = dayjs(new Date(1960, 8, 18))
+const MAX_DATE = dayjs().subtract(18, "year")
+
+
 export interface Guest {
   id: string;
   firstName: string;
   lastName: string;
-  birthDate: Dayjs;
+  birthDate: Dayjs | null;
   gender: Gender;
   alcohol: Array<AlcoholDto>;
 }
@@ -42,15 +48,24 @@ const mapAlcoholToOption = (alcohol: AlcoholDto): SelectOption => {
   }
 }
 
-
-const GuestComponent = ({id, firstName, lastName, birthDate, gender, onChange, alcohol, onClickDelete, errors}: GuestComponentsProps) => {
+const GuestComponent = ({
+                          id,
+                          firstName,
+                          lastName,
+                          birthDate,
+                          gender,
+                          onChange,
+                          alcohol,
+                          onClickDelete,
+                          errors
+                        }: GuestComponentsProps) => {
 
   const handleChange = ({target: {name, value}}: ChangeEvent<HTMLInputElement>) => {
     onChange(id, {[name]: value})
   }
 
-  const handleDateChange = ({target: {name, value}}: ChangeEvent<HTMLInputElement>) => {
-    onChange(id, {[name]: dayjs(value, BASE_DATE_FORMAT)})
+  const handleDateChange = (date: Dayjs | null) => {
+    onChange(id, {birthDate: date})
   }
 
   const handleGenderChange = ({target: {value}}: ChangeEvent<HTMLInputElement>) => {
@@ -62,15 +77,24 @@ const GuestComponent = ({id, firstName, lastName, birthDate, gender, onChange, a
   }, [ALCOHOL_NAMES])
 
   const selectedAlcoholOptions = useMemo(() => {
-    return alcohol.map(({id}) => id)
+    return alcohol.map(({id, name}) => ({
+      value: id,
+      label: name
+    }))
   }, [alcohol])
 
 
-  const alcoholChange: SelectProp['onChange'] = (selectedOption) => {
-    const foundAlcohol = ALCOHOL_NAMES.find(alcohol => alcohol.id === selectedOption.value);
+  const alcoholChange = (e: SelectChangeEvent<SelectOption | Array<SelectOption>>) => {
+    const value = Array.isArray(e.target.value) ? e.target.value : [e.target.value];
+    const foundAlcohol = ALCOHOL_NAMES.find(alcohol => value.includes(alcohol.id));
+
     if (foundAlcohol) {
       const newAlcoholArray = alcohol.includes(foundAlcohol) ? alcohol.filter(a => a.id !== foundAlcohol.id) : [...alcohol, foundAlcohol]
       onChange(id, {alcohol: newAlcoholArray})
+    } else {
+      if (value.includes("")) {
+        onChange(id, {alcohol: []})
+      }
     }
   }
 
@@ -99,52 +123,53 @@ const GuestComponent = ({id, firstName, lastName, birthDate, gender, onChange, a
         type="text"
         errorMessage={errors?.lastName?.join("; ")}
       />
-      <BaseInput
+      <DatePicker
         name="birthDate"
-        type="date"
         label="Birth Date:"
-        placeholder="Birth Date"
-        value={birthDate.format(BASE_DATE_FORMAT)}
+        value={birthDate}
         onChange={handleDateChange}
-        errorMessage={errors?.birthDate?.join("; ")}
+        minDate={MIN_DATE}
+        maxDate={MAX_DATE}
+        // errorMessage={errors?.birthDate?.join("; ")}
       />
 
-      <div className="gender">
-        <label className="gender-label">Gender:</label>
-        <div className="radio-group">
-          <label className="radio-group-label">M
-            <input
-              value={Gender.M}
-              name={`${id}-gender`}
-              type="radio"
-              className="radio-btn-input"
-              checked={Gender.M === gender}
-              onChange={handleGenderChange}
-            />
-          </label>
+      <FormControl className="gender">
+        <FormLabel id="demo-radio-buttons-group-label">
+          Gender
+        </FormLabel>
+        <RadioGroup
+          aria-labelledby="demo-radio-buttons-group-label"
+          value={gender}
+          row
+          name="radio-buttons-group"
+          onChange={handleGenderChange}
+        >
+          <FormControlLabel
+            value={Gender.M}
+            control={<Radio/>}
+            label="Male"
+          />
+          <FormControlLabel
+            value={Gender.F}
+            control={<Radio/>}
+            label="Female"
+          />
+        </RadioGroup>
+      </FormControl>
 
-          <label className="radio-group-label">F
-            <input
-              value={Gender.F}
-              name={`${id}-gender`}
-              type="radio"
-              className="radio-btn-input"
-              checked={Gender.F === gender}
-              onChange={handleGenderChange}
-            />
-          </label>
-
-        </div>
-      </div>
 
       <div className="alcohol">
-        <Select
-          label="Alcohol"
-          selectedOption={selectedAlcoholOptions}
-          options={alcoholOptions}
-          allowMultiple
-          onChange={alcoholChange}
-        />
+        <FormControl sx={{m: 1, width: 300}}>
+          <InputLabel shrink htmlFor="select-multiple-native">
+            Alcohol
+          </InputLabel>
+          <BaseSelect
+            selectedOption={selectedAlcoholOptions}
+            options={alcoholOptions}
+            multiple
+            onChange={alcoholChange}
+          />
+        </FormControl>
       </div>
     </div>
   );

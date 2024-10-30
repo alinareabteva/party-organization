@@ -12,7 +12,7 @@
     padding-bottom: 5px;
 
     .inputs {
-      width: 400px;
+      width: 100%;
       display: flex;
       justify-content: space-between;
 
@@ -22,17 +22,8 @@
 
       .organizer-input {
         cursor: pointer;
+        width: 48%;
       }
-    }
-
-    .label {
-      display: flex;
-      flex-direction: row;
-      align-items: flex-start;
-      width: 160px;
-      font-weight: 500;
-      font-size: 14px;
-      text-transform: uppercase;
     }
 
   }

@@ -1,34 +1,12 @@
-.base-input-wrapper {
+.MuiTextField-root.base-input-wrapper {
   width: 700px;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  padding-bottom: 5px;
+  padding-bottom: 15px;
+  font-weight: 500;
+  font-size: 12px;
 
-  .label {
-    display: flex;
-    flex-direction: row;
-    font-weight: 500;
-    font-size: 14px;
-    text-transform: uppercase;
-    width: 160px;
-  }
-  .input-container {
-    width: 400px;
-    display: flex;
-    flex-direction: column;
 
-    .base-input {
-      display: flex;
-      align-items: center;
-      width: 100%;
-      cursor: pointer;
-    }
-
-    .error {
-      color: #ff3333;
-      font-weight: 400;
-      font-size: 14px;
-    }
+  .MuiInputBase-input {
+    cursor: pointer;
   }
 }
+

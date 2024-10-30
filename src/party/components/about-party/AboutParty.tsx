@@ -3,8 +3,8 @@ import {ChangeEvent, useContext} from "react";
 import dayjs, {Dayjs} from "dayjs";
 import classNames from "classnames";
 import BaseInput from "../../../components/base/base-input/BaseInput.tsx";
-import {BASE_FORMAT} from "../../../utilities.ts";
 import {PartyContext} from "../../party-context/PartyContext.tsx";
+import {DatePicker} from "@mui/x-date-pickers";
 
 export interface AboutPartyState {
   partyName: string;
@@ -54,35 +54,36 @@ const AboutParty = () => {
     return createAllPropsForInput({key, placeholder})
   }
 
-  const handleDateChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleDateChange = (partyDate: Dayjs | null) => {
     setAboutPartyState({
-      date: dayjs(event.target.value, BASE_FORMAT)
+      date: dayjs(partyDate)
     })
   }
 
   return (
     <div className="about-party">
       <BaseInput
-        label="Name"
+        label="Name of the Party:"
         {...createPropsForInput("partyName", 'Enter Party Name')}
         errorMessage={aboutPartyErrors?.partyName?.join("; ")}
       />
 
       <div className="organizer">
-        <label htmlFor="name" className="label">Organizer:</label>
         <div className="inputs">
           <BaseInput
+            label="First Name:"
             {...createAllPropsForInput({
               key: "organizerFirstName",
-              placeholder: 'First Name',
+              placeholder: 'Enter First Name',
               className: "organizer-input",
             })}
             errorMessage={aboutPartyErrors?.organizerFirstName?.join("; ")}
           />
           <BaseInput
+            label="Last Name:"
             {...createAllPropsForInput({
               key: "organizerLastName",
-              placeholder: 'Last Name',
+              placeholder: 'Enter Last Name',
               className: "organizer-input"
             })}
             errorMessage={aboutPartyErrors?.organizerLastName?.join("; ")}
@@ -96,16 +97,13 @@ const AboutParty = () => {
         {...createPropsForInput("place", 'Enter Place')}
         errorMessage={aboutPartyErrors?.place?.join("; ")}
       />
-      <BaseInput
-        id="date"
-        onChange={handleDateChange}
-        className="base-input"
-        type="date"
-        value={aboutParty.date.format(BASE_FORMAT)}
+      <DatePicker
+        value={aboutParty.date}
         label="Date:"
-        errorMessage={aboutPartyErrors?.date?.join("; ")}
+        onChange={handleDateChange}
+        className="base-input-wrapper"
+        //errorMessage={aboutPartyErrors?.date?.join("; ")}
       />
-
       <BaseInput
         label="Phone number: "
         {...createPropsForInput("phoneNumber", 'Phone Number')}
