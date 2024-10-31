@@ -2,6 +2,8 @@ import "./GuestsList.scss"
 import {MouseEvent, useContext} from "react"
 import GuestComponent from "./guest/GuestComponent.tsx";
 import {PartyContext} from "../../party-context/PartyContext.tsx";
+import Button from "@mui/material/Button";
+import AddIcon from '@mui/icons-material/Add';
 
 
 const GuestsList = () => {
@@ -32,10 +34,16 @@ const GuestsList = () => {
             onChange={onGuestFieldChange}
             onClickDelete={onClickDelete}
             errors={guestsErrors[index]}
+            isLastItem={index === guestsArray.length - 1}
           />
         ))}
       </div>
-      <button className="button-add" onClick={handleClickGuest}>Add</button>
+
+      <div className="button">
+        <Button variant="contained" color="secondary" className="button-add" onClick={handleClickGuest} endIcon={<AddIcon />}>
+          Add
+        </Button>
+      </div>
     </div>
   );
 };

@@ -16,7 +16,9 @@ const BaseInput = ({id, errorMessage = "", label, type = "text", className = "",
                type={type}
                className={classNames({'base-input-wrapper': true, [className]: !!className})}
                helperText={errorMessage}
-               error={!!errorMessage} {...rest}/>
+               error={!!errorMessage}
+               {...rest}
+    />
   );
 };
 

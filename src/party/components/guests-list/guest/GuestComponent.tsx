@@ -1,14 +1,26 @@
 import dayjs, {Dayjs} from "dayjs";
 import "./GuestComponent.scss"
 import BaseInput from "../../../../components/base/base-input/BaseInput.tsx";
-import {ChangeEvent, useMemo} from "react";
+import {ChangeEvent, useEffect, useMemo, useRef} from "react";
 import BaseSelect, {SelectOption} from "../../../../components/base/base-select/BaseSelect.tsx";
-import BaseIcon, {IconNames} from "../../../../components/base/icon/BaseIcon.tsx";
 import {ALCOHOL_NAMES} from "../../../constants.ts";
 import {ErrorState} from "../../../../components/validation";
 import {DatePicker} from "@mui/x-date-pickers";
-import {FormControl, FormControlLabel, FormLabel, InputLabel, Radio, RadioGroup} from "@mui/material";
+import {
+  FormControl,
+  FormControlLabel,
+  FormLabel,
+  IconButton, InputAdornment,
+  InputLabel,
+  OutlinedInput,
+  Radio,
+  RadioGroup
+} from "@mui/material";
 import {SelectChangeEvent} from "@mui/material/Select";
+import CloseIcon from '@mui/icons-material/Close';
+import LiquorIcon from '@mui/icons-material/Liquor';
+import WomanIcon from '@mui/icons-material/Woman';
+import ManIcon from '@mui/icons-material/Man';
 
 export enum Gender {
   M = 'M',
@@ -39,6 +51,7 @@ export interface GuestComponentsProps extends Guest {
   onChange: (id: string, partOfGuest: Partial<Guest>) => void;
   onClickDelete: (id: string) => void;
   errors: ErrorState<Guest>;
+  isLastItem: boolean;
 }
 
 const mapAlcoholToOption = (alcohol: AlcoholDto): SelectOption => {
@@ -57,8 +70,20 @@ const GuestComponent = ({
                           onChange,
                           alcohol,
                           onClickDelete,
-                          errors
+                          errors,
+                          isLastItem,
                         }: GuestComponentsProps) => {
+
+  const ref = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (isLastItem && ref.current) {
+      ref.current.scrollIntoView({
+        block: 'center',
+        behavior: 'smooth'
+      })
+    }
+  }, [ref, isLastItem])
 
   const handleChange = ({target: {name, value}}: ChangeEvent<HTMLInputElement>) => {
     onChange(id, {[name]: value})
@@ -99,12 +124,13 @@ const GuestComponent = ({
   }
 
   return (
-    <div className="guest-box">
-      <BaseIcon
-        onClick={() => onClickDelete(id)}
-        size={'badgeIcon'}
-        name={IconNames.Close}
-      />
+    <div className="guest-box" ref={ref}>
+      <div className="header-actions">
+        <IconButton className="close-icon" onClick={() => onClickDelete(id)}>
+          <CloseIcon fontSize="large"/>
+        </IconButton>
+      </div>
+
       <BaseInput
         name="firstName"
         placeholder="First Name"
@@ -134,11 +160,11 @@ const GuestComponent = ({
       />
 
       <FormControl className="gender">
-        <FormLabel id="demo-radio-buttons-group-label">
+        <FormLabel id="radio-buttons-group-label">
           Gender
         </FormLabel>
         <RadioGroup
-          aria-labelledby="demo-radio-buttons-group-label"
+          aria-labelledby="radio-buttons-group-label"
           value={gender}
           row
           name="radio-buttons-group"
@@ -147,27 +173,38 @@ const GuestComponent = ({
           <FormControlLabel
             value={Gender.M}
             control={<Radio/>}
-            label="Male"
+            label={<ManIcon fontSize="large"/>}
+
           />
           <FormControlLabel
             value={Gender.F}
             control={<Radio/>}
-            label="Female"
+            label={<WomanIcon fontSize="large"/>}
           />
         </RadioGroup>
       </FormControl>
 
-
       <div className="alcohol">
         <FormControl sx={{m: 1, width: 300}}>
-          <InputLabel shrink htmlFor="select-multiple-native">
+          <InputLabel id={`select-multiple-${id}`}>
             Alcohol
           </InputLabel>
           <BaseSelect
             selectedOption={selectedAlcoholOptions}
             options={alcoholOptions}
             multiple
+            labelId={`select-multiple-${id}`}
             onChange={alcoholChange}
+            input={(
+              <OutlinedInput
+                label="Alcohol"
+                startAdornment={(
+                  <InputAdornment position="start">
+                    <LiquorIcon/>
+                  </InputAdornment>
+                )}
+              />
+            )}
           />
         </FormControl>
       </div>

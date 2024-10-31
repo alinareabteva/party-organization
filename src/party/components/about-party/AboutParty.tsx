@@ -5,6 +5,10 @@ import classNames from "classnames";
 import BaseInput from "../../../components/base/base-input/BaseInput.tsx";
 import {PartyContext} from "../../party-context/PartyContext.tsx";
 import {DatePicker} from "@mui/x-date-pickers";
+import {InputAdornment} from "@mui/material";
+import AddIcCallIcon from '@mui/icons-material/AddIcCall';
+import PlaceIcon from '@mui/icons-material/Place';
+import CelebrationIcon from '@mui/icons-material/Celebration';
 
 export interface AboutPartyState {
   partyName: string;
@@ -66,6 +70,15 @@ const AboutParty = () => {
         label="Name of the Party:"
         {...createPropsForInput("partyName", 'Enter Party Name')}
         errorMessage={aboutPartyErrors?.partyName?.join("; ")}
+        slotProps={{
+          input: {
+            endAdornment: (
+              <InputAdornment position="end">
+                <CelebrationIcon/>
+              </InputAdornment>
+            ),
+          },
+        }}
       />
 
       <div className="organizer">
@@ -96,6 +109,15 @@ const AboutParty = () => {
         label="Place:"
         {...createPropsForInput("place", 'Enter Place')}
         errorMessage={aboutPartyErrors?.place?.join("; ")}
+        slotProps={{
+          input: {
+            endAdornment: (
+              <InputAdornment position="end">
+                <PlaceIcon/>
+              </InputAdornment>
+            ),
+          },
+        }}
       />
       <DatePicker
         value={aboutParty.date}
@@ -108,6 +130,15 @@ const AboutParty = () => {
         label="Phone number: "
         {...createPropsForInput("phoneNumber", 'Phone Number')}
         errorMessage={aboutPartyErrors?.phoneNumber?.join("; ")}
+        slotProps={{
+          input: {
+            endAdornment: (
+              <InputAdornment position="end">
+                <AddIcCallIcon/>
+              </InputAdornment>
+            ),
+          },
+        }}
       />
     </div>
   );
