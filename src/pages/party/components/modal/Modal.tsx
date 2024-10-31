@@ -1,9 +1,11 @@
-import OverViewTable from "../../party/components/overview/OverViewTable.tsx";
-import BaseIcon, {IconNames} from "../../components/base/icon/BaseIcon.tsx";
+
 import "./Modal.scss"
 import {useContext} from "react";
-import {PartyContext} from "../../party/party-context/PartyContext.tsx";
 import {createPortal} from "react-dom";
+import OverViewTable from "../overview/OverViewTable.tsx";
+import {PartyContext} from "../../party-context/PartyContext.tsx";
+import {IconButton} from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
 
 const Modal = ({onClose}: { onClose: () => void }) => {
 
@@ -12,10 +14,9 @@ const Modal = ({onClose}: { onClose: () => void }) => {
       <div className="modal">
         <div className="modal-area">
           <div className="icon-wrapper">
-            <BaseIcon
-              onClick={onClose}
-              size={'badgeIcon'}
-              name={IconNames.Close}/>
+            <IconButton className="close-icon" onClick={onClose}>
+              <CloseIcon fontSize="large"/>
+            </IconButton>
           </div>
           <div className="modal-body">
             <OverViewTable/>

@@ -1,8 +1,8 @@
+import {ActionFuncWithPayload, ActionVoidFunction, PartyAction, PartyActionType} from "./types.ts";
 import {AboutPartyState} from "../components/about-party/AboutParty.tsx";
 import {Guest} from "../components/guests-list/guest/GuestComponent.tsx";
-import {ErrorState} from "../../components/validation";
+import {ErrorState} from "../../../components/validation";
 import {buildDefaultGuest, buildEmptyGuestErrors} from "../components/guests-list/guest/constants.ts";
-import {ActionFuncWithPayload, ActionVoidFunction, PartyAction, PartyActionType} from "./types.ts";
 
 type SetAboutPartyStateActionReturnType = PartyAction<PartyActionType.SET_ABOUT_PARTY_STATE, Partial<AboutPartyState>>;
 

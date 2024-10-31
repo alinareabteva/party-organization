@@ -1,13 +1,13 @@
 import {v4 as uuidv4} from "uuid";
 import dayjs from "dayjs";
+import {Gender, Guest} from "./GuestComponent.tsx";
 import {
   firstCharIsCapitalLetterValidator,
   isNotBiggerThanValidator,
   isNotEmptyValidator,
   isNotLessThanValidator, onlyLettersValidator,
   ValidatorConfig
-} from "../../../../components/validation";
-import {Gender, Guest} from "./GuestComponent.tsx";
+} from "../../../../../components/validation";
 
 export const buildDefaultGuest = () => {
   return  {

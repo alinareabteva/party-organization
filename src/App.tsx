@@ -1,15 +1,16 @@
 import './App.css'
-import Party from "./party/Party.tsx";
 import {LocalizationProvider} from "@mui/x-date-pickers";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import 'dayjs/locale/en';
+import {RouterProvider} from "react-router-dom";
+import router from "./routes.tsx";
 
 function App() {
 
   return (
     <div className="App">
       <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="en">
-      <Party/>
+        <RouterProvider router={router}/>
       </LocalizationProvider>
     </div>
   )

@@ -1,6 +1,5 @@
 import React, {FunctionComponent, MouseEvent, PropsWithChildren, useReducer} from "react";
 import {INITIAL_STATE, partyReducer} from "../party-reducer/party-reducer.ts";
-import {AboutPartyState} from "../components/about-party/AboutParty.tsx";
 import {
   addNewGuestAction,
   changeGuest, closeModalAction,
@@ -8,8 +7,9 @@ import {
   setAboutPartyStateAction,
   submitFormAction
 } from "../party-reducer/actions.ts";
-import {Guest, GuestComponentsProps} from "../components/guests-list/guest/GuestComponent.tsx";
 import {PartyReducerState} from "../party-reducer/types.ts";
+import {AboutPartyState} from "../components/about-party/AboutParty.tsx";
+import {Guest, GuestComponentsProps} from "../components/guests-list/guest/GuestComponent.tsx";
 
 interface PartyContextValue {
   partyState: PartyReducerState;

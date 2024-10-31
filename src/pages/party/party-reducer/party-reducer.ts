@@ -7,9 +7,8 @@ import {
 } from "../components/guests-list/guest/constants.ts";
 import {PartyActionType, PartyReducerState} from "./types.ts";
 import {AvailablePartyAction} from "./actions.ts";
-import {validateArray, validateStateFunc} from "../../components/validation";
+import {validateArray, validateStateFunc} from "../../../components/validation";
 import {aboutPartyValidatorConfig} from "../components/about-party/constants.ts";
-
 
 export const INITIAL_STATE: PartyReducerState = {
   values: {

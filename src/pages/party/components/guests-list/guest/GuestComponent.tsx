@@ -1,10 +1,7 @@
 import dayjs, {Dayjs} from "dayjs";
 import "./GuestComponent.scss"
-import BaseInput from "../../../../components/base/base-input/BaseInput.tsx";
 import {ChangeEvent, useEffect, useMemo, useRef} from "react";
-import BaseSelect, {SelectOption} from "../../../../components/base/base-select/BaseSelect.tsx";
-import {ALCOHOL_NAMES} from "../../../constants.ts";
-import {ErrorState} from "../../../../components/validation";
+
 import {DatePicker} from "@mui/x-date-pickers";
 import {
   FormControl,
@@ -21,6 +18,11 @@ import CloseIcon from '@mui/icons-material/Close';
 import LiquorIcon from '@mui/icons-material/Liquor';
 import WomanIcon from '@mui/icons-material/Woman';
 import ManIcon from '@mui/icons-material/Man';
+import {ErrorState} from "../../../../../components/validation";
+import BaseSelect, {SelectOption} from "../../../../../components/base/base-select/BaseSelect.tsx";
+import {ALCOHOL_NAMES} from "../../../constants.ts";
+import BaseInput from "../../../../../components/base/base-input/BaseInput.tsx";
+
 
 export enum Gender {
   M = 'M',

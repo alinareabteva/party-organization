@@ -1,10 +1,9 @@
 import "./GuestsList.scss"
 import {MouseEvent, useContext} from "react"
 import GuestComponent from "./guest/GuestComponent.tsx";
-import {PartyContext} from "../../party-context/PartyContext.tsx";
 import Button from "@mui/material/Button";
 import AddIcon from '@mui/icons-material/Add';
-
+import {PartyContext} from "../../party-context/PartyContext.tsx";
 
 const GuestsList = () => {
   const {

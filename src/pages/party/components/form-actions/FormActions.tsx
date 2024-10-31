@@ -1,8 +1,8 @@
 import {useContext} from "react";
-import {PartyContext} from "../../party-context/PartyContext.tsx";
 import "./FormActions.scss"
 import Button from "@mui/material/Button";
 import PublishIcon from '@mui/icons-material/Publish';
+import {PartyContext} from "../../party-context/PartyContext.tsx";
 
 const FormActions = () => {
   const {partyState, onClickSubmit} = useContext(PartyContext)

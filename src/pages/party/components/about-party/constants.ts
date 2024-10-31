@@ -1,11 +1,11 @@
+import {AboutPartyState} from "./AboutParty.tsx";
 import {
   firstCharIsCapitalLetterValidator,
   isNotBiggerThanValidator,
   isNotEmptyValidator,
   isNotLessThanValidator, onlyLettersValidator, phoneNumberValidator,
   ValidatorConfig
-} from "../../../components/validation";
-import {AboutPartyState} from "./AboutParty.tsx";
+} from "../../../../components/validation";
 
 export const aboutPartyValidatorConfig: ValidatorConfig<AboutPartyState> = {
   partyName: [

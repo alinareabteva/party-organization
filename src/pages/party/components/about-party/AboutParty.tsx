@@ -2,13 +2,13 @@ import "./AboutParty.scss"
 import {ChangeEvent, useContext} from "react";
 import dayjs, {Dayjs} from "dayjs";
 import classNames from "classnames";
-import BaseInput from "../../../components/base/base-input/BaseInput.tsx";
-import {PartyContext} from "../../party-context/PartyContext.tsx";
 import {DatePicker} from "@mui/x-date-pickers";
 import {InputAdornment} from "@mui/material";
 import AddIcCallIcon from '@mui/icons-material/AddIcCall';
 import PlaceIcon from '@mui/icons-material/Place';
 import CelebrationIcon from '@mui/icons-material/Celebration';
+import BaseInput from "../../../../components/base/base-input/BaseInput.tsx";
+import {PartyContext} from "../../party-context/PartyContext.tsx";
 
 export interface AboutPartyState {
   partyName: string;

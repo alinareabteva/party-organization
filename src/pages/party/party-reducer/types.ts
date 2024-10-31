@@ -1,12 +1,11 @@
-import {Guest} from "../components/guests-list/guest/GuestComponent.tsx";
 import {AboutPartyState} from "../components/about-party/AboutParty.tsx";
-import {ErrorState} from "../../components/validation";
+import {Guest} from "../components/guests-list/guest/GuestComponent.tsx";
+import {ErrorState} from "../../../components/validation";
 
 export interface PartyState {
   guests: Guest[];
   aboutParty: AboutPartyState;
 }
-
 
 export interface PartyReducerState {
   values: PartyState,
