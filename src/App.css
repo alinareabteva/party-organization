@@ -4,6 +4,7 @@ html {
 
   body {
     position: relative;
+    margin: 0;
   }
 
   #root {
@@ -12,5 +13,10 @@ html {
     justify-content: center;
     margin-bottom: 2%;
     position: relative;
+
+    .app {
+      position: relative;
+      width: 100%;
+    }
   }
 }

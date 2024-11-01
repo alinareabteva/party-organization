@@ -1,5 +1,6 @@
 import {NavLink} from "react-router-dom";
 import {AppPath} from "../../routes-constants.ts";
+import "./NavBar.scss"
 
 const pages = [
   {
@@ -19,7 +20,7 @@ const pages = [
 const NavBar = () => {
   return (
     <div className="nav-bar">
-      <ul>
+      <ul className="nav-links">
         {pages.map((page) => (
           <li className="nav-item" key={page.path}>
             <NavLink

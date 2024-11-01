@@ -1,7 +1,6 @@
 import {useContext} from "react";
 import "./FormActions.scss"
 import Button from "@mui/material/Button";
-import PublishIcon from '@mui/icons-material/Publish';
 import {PartyContext} from "../../party-context/PartyContext.tsx";
 
 const FormActions = () => {
@@ -14,7 +13,6 @@ const FormActions = () => {
         color="primary"
         disabled={partyState.values.guests.length === 0}
         onClick={onClickSubmit}
-        endIcon={<PublishIcon />}
       >
         Submit
       </Button>

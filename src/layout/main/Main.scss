@@ -1,0 +1,11 @@
+.main-layout {
+  width: 100%;
+  position: relative;
+
+  .content {
+    display: flex;
+    justify-content: center;
+    padding: 4% 0;
+    position: relative;
+  }
+}
