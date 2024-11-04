@@ -14,5 +14,16 @@ export const applicationReducer: Reducer<ApplicationReducerState, AvailableAppli
         parties: [...state.parties, action.payload]
       }
     }
+    case ApplicationActionType.DELETE_PARTY: {
+      const {index} = action.payload;
+     return {
+       ...state,
+       parties: state.parties
+         .filter((party, partyIndex) => partyIndex !== index)
+     }
+    }
+    default: {
+      return state;
+    }
   }
 }

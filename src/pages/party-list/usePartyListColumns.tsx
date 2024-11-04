@@ -1,20 +1,20 @@
-import {ReactNode, useMemo} from "react";
-import {PartyState} from "../party/party-reducer/types.ts";
+import {useContext, useMemo} from "react";
+import {PartyItem} from "./usePartyListData.ts";
+import DeleteIcon from '@mui/icons-material/Delete';
+import {IconButton} from "@mui/material";
+import {Column} from "../../components/base/table/BaseTable.tsx";
+import {ApplicationContext} from "../../context/application-context/ApplicationContext.tsx";
 
-export interface PartyListColumn {
-  title: string;
-  fieldName: keyof PartyState["aboutParty"];
-  render?: (rowItem: PartyState["aboutParty"]) => ReactNode;
-}
 
-export const usePartyListColumns = (): Array<PartyListColumn> => {
+export const usePartyListColumns = (): Array<Column<PartyItem>> => {
+  const {deleteParty} = useContext(ApplicationContext)
 
   return useMemo(() => {
-
     return [
       {
         title: "Name of The Party",
         fieldName: "partyName",
+        className: 'party-name'
       },
       {
         title: "First Name",
@@ -32,15 +32,28 @@ export const usePartyListColumns = (): Array<PartyListColumn> => {
         title: "Date",
         fieldName: "date",
         render: rowItem => (
-        <>{rowItem.date.format("DD-MM-YYYY")}</>
+          <>{rowItem.date.format("DD-MM-YYYY")}</>
         )
       },
       {
         title: "Phone Number",
         fieldName: "phoneNumber"
       },
+      {
+        title: "Actions",
+        fieldName: "actions",
+        render: (rowItem, index) => {
+          return (
+            <div className="actions">
+              <IconButton size="small" onClick={() => deleteParty(index)}>
+                <DeleteIcon/>
+              </IconButton>
+            </div>
+          )
+        }
+      },
 
 
     ]
-  }, [])
+  }, [deleteParty])
 }

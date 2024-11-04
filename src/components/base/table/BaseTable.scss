@@ -1,0 +1,50 @@
+.base-table {
+  background: #8eddbc;
+  padding: 40px;
+  border-collapse: collapse;
+  min-width: 50vw;
+  width: auto;
+  border: 1px solid #000;
+
+  thead,
+  tbody,
+  tr {
+
+    th,
+    td {
+      padding: 15px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    th {
+      position: sticky;
+      top: 0;
+      background: #299f77;
+      text-align: left;
+      text-transform: uppercase;
+      font-weight: 500;
+      font-size: 14px;
+      color: white;
+
+      &:last-child {
+        border: 0;
+      }
+    }
+
+    td {
+      padding-top: 10px;
+      padding-bottom: 10px;
+      font-weight: 600;
+      font-size: 14px;
+      color: #000;
+      border-left: 1px solid #000;
+      border-bottom: 1px solid #000;
+
+      &:last-child {
+        border-right: 1px solid #000;
+      }
+    }
+  }
+}

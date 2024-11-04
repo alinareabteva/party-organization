@@ -6,6 +6,7 @@ export interface ApplicationReducerState {
 
 export enum ApplicationActionType {
   ADD_PARTY = "ADD_PARTY",
+  DELETE_PARTY = "DELETE_PARTY",
 
 }
 
