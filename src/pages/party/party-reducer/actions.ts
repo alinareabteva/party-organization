@@ -1,8 +1,17 @@
-import {ActionFuncWithPayload, ActionVoidFunction, PartyAction, PartyActionType} from "./types.ts";
+import {ActionFuncWithPayload, ActionVoidFunction, PartyAction, PartyActionType, PartyReducerState} from "./types.ts";
 import {AboutPartyState} from "../components/about-party/AboutParty.tsx";
 import {Guest} from "../components/guests-list/guest/GuestComponent.tsx";
 import {ErrorState} from "../../../components/validation";
 import {buildDefaultGuest, buildEmptyGuestErrors} from "../components/guests-list/guest/constants.ts";
+
+type SetPartyStateActionReturnType = PartyAction<PartyActionType.SET_STATE, Partial<PartyReducerState>>;
+
+export const setPartyStateAction: ActionFuncWithPayload<SetPartyStateActionReturnType['type'], SetPartyStateActionReturnType['payload']> = (payload) => {
+  return {
+    type: PartyActionType.SET_STATE,
+    payload
+  }
+}
 
 type SetAboutPartyStateActionReturnType = PartyAction<PartyActionType.SET_ABOUT_PARTY_STATE, Partial<AboutPartyState>>;
 
@@ -69,7 +78,8 @@ export const closeModalAction: ActionVoidFunction<CloseModalActionReturnType['ty
   payload: null
 })
 
-export type AvailablePartyAction = SetAboutPartyStateActionReturnType
+export type AvailablePartyAction = SetPartyStateActionReturnType
+  | SetAboutPartyStateActionReturnType
   | AddNewGuestActionReturnType
   | ChangeGuestActionReturnType
   | DeleteGuestActionReturnType

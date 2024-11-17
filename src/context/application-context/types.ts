@@ -2,11 +2,14 @@ import {PartyState} from "../../pages/party/party-reducer/types.ts";
 
 export interface ApplicationReducerState {
  parties: PartyState[];
+ selectedParties: Array<number>;
 }
 
 export enum ApplicationActionType {
   ADD_PARTY = "ADD_PARTY",
   DELETE_PARTY = "DELETE_PARTY",
+  EDIT_PARTY = "EDIT_PARTY",
+  TOGGLE_SELECT_ALL = "TOGGLE_SELECT_ALL",
 
 }
 

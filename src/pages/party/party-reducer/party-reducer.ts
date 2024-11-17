@@ -35,12 +35,18 @@ export const INITIAL_STATE: PartyReducerState = {
   },
   modal: {
     isOpen: false,
-
   }
 }
 
 export const partyReducer: Reducer<PartyReducerState, AvailablePartyAction> = (state, action) => {
   switch (action.type) {
+    case PartyActionType.SET_STATE: {
+      const payload = action.payload;
+      return {
+        ...state,
+        ...payload
+      }
+    }
     case PartyActionType.SET_ABOUT_PARTY_STATE: {
       const payload = action.payload;
       return {

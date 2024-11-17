@@ -4,6 +4,7 @@ import PartyList from "./pages/party-list/PartyList.tsx";
 import Overview from "./pages/overview/Overview.tsx";
 import Main from "./layout/main/Main.tsx";
 import {AppPath} from "./routes-constants.ts";
+import EditParty from "./pages/edit-party/EditParty.tsx";
 
 const router = createBrowserRouter([
   {
@@ -13,6 +14,10 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <Party/>
+      },
+      {
+        path: AppPath.EDIT_PARTY_PAGE,
+        element: <EditParty/>
       },
       {
         path: AppPath.PARTY_LIST_PAGE,

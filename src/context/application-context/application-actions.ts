@@ -1,4 +1,4 @@
-import {AppActionFuncWithPayload, ApplicationAction, ApplicationActionType} from "./types.ts";
+import {AppActionFuncWithPayload, AppActionVoidFunction, ApplicationAction, ApplicationActionType} from "./types.ts";
 import {PartyState} from "../../pages/party/party-reducer/types.ts";
 
 
@@ -12,8 +12,9 @@ export const addNewPartyAction: AppActionFuncWithPayload<AddNewPartyActionReturn
 
 
 interface DeletePartyActionProps {
-  index: number
+  index: number;
 }
+
 type DeletePartyActionReturnType = ApplicationAction<ApplicationActionType.DELETE_PARTY, DeletePartyActionProps>
 export const deletePartyAction: AppActionFuncWithPayload<DeletePartyActionReturnType['type'], DeletePartyActionReturnType['payload']> = (payload) => {
   return {
@@ -23,6 +24,28 @@ export const deletePartyAction: AppActionFuncWithPayload<DeletePartyActionReturn
 }
 
 
+interface EditPartyActionProps {
+  index: number;
+  party: PartyState;
+}
+type EditPartyActionReturnType = ApplicationAction<ApplicationActionType.EDIT_PARTY, EditPartyActionProps>
+export const editPartyAction: AppActionFuncWithPayload<EditPartyActionReturnType['type'], EditPartyActionReturnType['payload']> = (payload) => {
+  return {
+    type: ApplicationActionType.EDIT_PARTY,
+    payload
+  }
+}
+
+type ToggleSelectAllReturnType = ApplicationAction<ApplicationActionType.TOGGLE_SELECT_ALL, null>
+export const toggleSelectAllAction:  AppActionVoidFunction<ToggleSelectAllReturnType['type'], ToggleSelectAllReturnType['payload']> = () => {
+  return {
+    type: ApplicationActionType.TOGGLE_SELECT_ALL,
+    payload: null
+  }
+}
+
 
 export type AvailableApplicationAction = AddNewPartyActionReturnType
   | DeletePartyActionReturnType
+  | EditPartyActionReturnType
+  | ToggleSelectAllReturnType

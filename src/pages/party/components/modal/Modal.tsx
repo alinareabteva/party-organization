@@ -1,5 +1,5 @@
 import "./Modal.scss"
-import {useContext} from "react";
+import {useContext, useMemo} from "react";
 import {createPortal} from "react-dom";
 import OverViewTable from "../overview/OverViewTable.tsx";
 import {PartyContext} from "../../party-context/PartyContext.tsx";
@@ -10,9 +10,10 @@ import Button from "@mui/material/Button";
 import {useNavigate} from "react-router-dom";
 import {AppPath} from "../../../../routes-constants.ts";
 
+
 const Modal = () => {
-  const {partyState: {values}, closeModal} = useContext(PartyContext)
-  const {addNewParty} = useContext(ApplicationContext)
+  const {partyState: {values}, closeModal, isEditingMode, partyIndex} = useContext(PartyContext)
+  const {addNewParty, editParty} = useContext(ApplicationContext)
 
   const navigate = useNavigate()
 
@@ -20,6 +21,26 @@ const Modal = () => {
     addNewParty(values)
     navigate(AppPath.PARTY_LIST_PAGE)
   }
+
+  const onClickEditParty = () => {
+    if(partyIndex !== undefined){
+      editParty(partyIndex, values)
+      navigate(AppPath.PARTY_LIST_PAGE)
+    }
+  }
+
+  const {title: buttonTitle, ...buttonProps} = useMemo(() => {
+    if (isEditingMode) {
+      return {
+        title: 'Update Party',
+        onClick: onClickEditParty
+      }
+    }
+    return {
+      title: 'Create Party',
+      onClick: onClickCreateParty
+    }
+  }, [isEditingMode])
 
   return (
     <div className="backdrop">
@@ -34,11 +55,10 @@ const Modal = () => {
             <OverViewTable/>
           </div>
           <div className="create-party">
-            <Button onClick={onClickCreateParty} size="large" variant="contained" color="success">
-              Create Party
+            <Button size="large" variant="contained" color="success" {...buttonProps}>
+              {buttonTitle}
             </Button>
           </div>
-
         </div>
 
       </div>

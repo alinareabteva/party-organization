@@ -19,6 +19,7 @@ export interface PartyReducerState {
 }
 
 export enum PartyActionType {
+  SET_STATE = "SET_STATE",
   SET_ABOUT_PARTY_STATE = "SET_ABOUT_PARTY_STATE",
   ADD_GUEST = "ADD_GUEST",
   CHANGE_GUEST = "CHANGE_GUEST",
