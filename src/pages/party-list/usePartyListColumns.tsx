@@ -7,9 +7,10 @@ import {Column} from "../../components/base/table/BaseTable.tsx";
 import {ApplicationContext} from "../../context/application-context/ApplicationContext.tsx";
 import {generatePath, NavLink} from "react-router-dom";
 import {AppPath} from "../../routes-constants.ts";
+import {toggleSelectOneAction} from "../../context/application-context/application-actions.ts";
 
 export const usePartyListColumns = (): Array<Column<PartyItem>> => {
-  const {deleteParty, toggleSelectAll, applicationState: {parties, selectedParties}} = useContext(ApplicationContext)
+  const {deleteParty, toggleSelectAll, toggleSelectOne, applicationState: {parties, selectedParties}} = useContext(ApplicationContext)
 
   const indeterminate = selectedParties.length > 0 && selectedParties.length < parties.length
   const checkedAll = selectedParties.length === parties.length
@@ -23,7 +24,7 @@ export const usePartyListColumns = (): Array<Column<PartyItem>> => {
           return <Checkbox checked={checkedAll} indeterminate={indeterminate} onClick={toggleSelectAll}/>
         },
         render: (rowItem, index) => {
-          return <Checkbox checked={rowItem.checked} onClick={() => alert("will be soon iimplemented")}/>
+          return <Checkbox checked={rowItem.checked} onClick={() => toggleSelectOne(index)}/>
         }
       },
       {
@@ -79,5 +80,5 @@ export const usePartyListColumns = (): Array<Column<PartyItem>> => {
 
 
     ]
-  }, [deleteParty, toggleSelectAll, indeterminate, checkedAll])
+  }, [deleteParty, toggleSelectAll, toggleSelectOne, indeterminate, checkedAll])
 }

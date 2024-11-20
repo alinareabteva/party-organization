@@ -13,15 +13,15 @@ const router = createBrowserRouter([
     children:[
       {
         index: true,
+        element: <PartyList/>
+      },
+      {
+        path: AppPath.CREATE_PARTY_PAGE,
         element: <Party/>
       },
       {
         path: AppPath.EDIT_PARTY_PAGE,
         element: <EditParty/>
-      },
-      {
-        path: AppPath.PARTY_LIST_PAGE,
-        element: <PartyList/>
       },
       {
         path: AppPath.OVERVIEW_PAGE,

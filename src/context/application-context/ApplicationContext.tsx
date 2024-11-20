@@ -1,7 +1,13 @@
 import React, {FunctionComponent, PropsWithChildren, useCallback, useReducer} from "react";
 import {applicationReducer, INITIAL_STATE} from "./application-reducer.ts";
 import {ApplicationReducerState} from "./types.ts";
-import {addNewPartyAction, deletePartyAction, editPartyAction, toggleSelectAllAction} from "./application-actions.ts";
+import {
+  addNewPartyAction,
+  deletePartyAction,
+  editPartyAction,
+  toggleSelectAllAction,
+  toggleSelectOneAction
+} from "./application-actions.ts";
 import {PartyState} from "../../pages/party/party-reducer/types.ts";
 
 interface ApplicationContextValue {
@@ -10,6 +16,7 @@ interface ApplicationContextValue {
   deleteParty: (index: number) => void;
   editParty: (index: number, party: PartyState) => void;
   toggleSelectAll: () => void;
+  toggleSelectOne: (index: number) => void;
 }
 
 export const ApplicationContext = React.createContext<ApplicationContextValue>({} as ApplicationContextValue);
@@ -35,6 +42,10 @@ export const ApplicationContextProvider: FunctionComponent<PropsWithChildren> = 
     dispatch(toggleSelectAllAction())
   }
 
+  const toggleSelectOne:ApplicationContextValue['toggleSelectOne'] = (index) => {
+    dispatch(toggleSelectOneAction({index}))
+  }
+
   return (
     <ApplicationContext.Provider
       value={{
@@ -42,7 +53,8 @@ export const ApplicationContextProvider: FunctionComponent<PropsWithChildren> = 
         addNewParty,
         deleteParty,
         editParty,
-        toggleSelectAll
+        toggleSelectAll,
+        toggleSelectOne
       }}
     >
       {children}

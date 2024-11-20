@@ -5,11 +5,11 @@ import "./NavBar.scss"
 const pages = [
   {
     path: AppPath.PARTY_PAGE,
-    label: "Create Party"
+    label: "Party List"
   },
   {
-    path: AppPath.PARTY_LIST_PAGE,
-    label: "Party List"
+    path: AppPath.CREATE_PARTY_PAGE,
+    label: "Create Party"
   },
   {
     path: AppPath.OVERVIEW_PAGE,

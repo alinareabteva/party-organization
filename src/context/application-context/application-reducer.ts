@@ -42,7 +42,16 @@ export const applicationReducer: Reducer<ApplicationReducerState, AvailableAppli
     case ApplicationActionType.TOGGLE_SELECT_ALL: {
       return  {
         ...state,
-        selectedParties: state.selectedParties.length === state.parties.length ? [] : state.parties.map((el, index) => index)
+        selectedParties: state.selectedParties.length === state.parties.length ? new Array<number>() : state.parties.map((el, index) => index)
+      }
+    }
+
+
+    case ApplicationActionType.TOGGLE_SELECT_ONE: {
+      const {index} = action.payload
+      return {
+        ...state,
+        selectedParties: state.selectedParties.includes(index) ? state.selectedParties.filter(number => number !== index) : [...state.selectedParties, index]
       }
     }
 

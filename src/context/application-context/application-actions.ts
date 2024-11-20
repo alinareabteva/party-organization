@@ -28,6 +28,7 @@ interface EditPartyActionProps {
   index: number;
   party: PartyState;
 }
+
 type EditPartyActionReturnType = ApplicationAction<ApplicationActionType.EDIT_PARTY, EditPartyActionProps>
 export const editPartyAction: AppActionFuncWithPayload<EditPartyActionReturnType['type'], EditPartyActionReturnType['payload']> = (payload) => {
   return {
@@ -36,11 +37,24 @@ export const editPartyAction: AppActionFuncWithPayload<EditPartyActionReturnType
   }
 }
 
+
 type ToggleSelectAllReturnType = ApplicationAction<ApplicationActionType.TOGGLE_SELECT_ALL, null>
-export const toggleSelectAllAction:  AppActionVoidFunction<ToggleSelectAllReturnType['type'], ToggleSelectAllReturnType['payload']> = () => {
+export const toggleSelectAllAction: AppActionVoidFunction<ToggleSelectAllReturnType['type'], ToggleSelectAllReturnType['payload']> = () => {
   return {
     type: ApplicationActionType.TOGGLE_SELECT_ALL,
     payload: null
+  }
+}
+
+
+interface ToggleSelectOneActionProps {
+  index: number;
+}
+type ToggleSelectOneReturnType = ApplicationAction<ApplicationActionType.TOGGLE_SELECT_ONE, ToggleSelectOneActionProps>
+export const toggleSelectOneAction: AppActionFuncWithPayload<ToggleSelectOneReturnType['type'], ToggleSelectOneReturnType['payload']> = (payload) => {
+  return {
+    type: ApplicationActionType.TOGGLE_SELECT_ONE,
+    payload
   }
 }
 
@@ -49,3 +63,4 @@ export type AvailableApplicationAction = AddNewPartyActionReturnType
   | DeletePartyActionReturnType
   | EditPartyActionReturnType
   | ToggleSelectAllReturnType
+  | ToggleSelectOneReturnType
