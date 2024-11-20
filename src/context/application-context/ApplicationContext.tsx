@@ -3,8 +3,8 @@ import {applicationReducer, INITIAL_STATE} from "./application-reducer.ts";
 import {ApplicationReducerState} from "./types.ts";
 import {
   addNewPartyAction,
-  deletePartyAction,
-  editPartyAction,
+  deletePartyAction, deleteSelectedPartyAction,
+  editPartyAction, toggleConfirmDeleteModalAction,
   toggleSelectAllAction,
   toggleSelectOneAction
 } from "./application-actions.ts";
@@ -17,6 +17,8 @@ interface ApplicationContextValue {
   editParty: (index: number, party: PartyState) => void;
   toggleSelectAll: () => void;
   toggleSelectOne: (index: number) => void;
+  deleteSelectedParties: () => void;
+  toggleOpenConfirmDeleteModal: () => void;
 }
 
 export const ApplicationContext = React.createContext<ApplicationContextValue>({} as ApplicationContextValue);
@@ -46,6 +48,14 @@ export const ApplicationContextProvider: FunctionComponent<PropsWithChildren> = 
     dispatch(toggleSelectOneAction({index}))
   }
 
+  const deleteSelectedParties = () => {
+    dispatch(deleteSelectedPartyAction())
+  }
+
+  const toggleOpenConfirmDeleteModal = () => {
+    dispatch(toggleConfirmDeleteModalAction())
+  }
+
   return (
     <ApplicationContext.Provider
       value={{
@@ -54,7 +64,9 @@ export const ApplicationContextProvider: FunctionComponent<PropsWithChildren> = 
         deleteParty,
         editParty,
         toggleSelectAll,
-        toggleSelectOne
+        toggleSelectOne,
+        deleteSelectedParties,
+        toggleOpenConfirmDeleteModal
       }}
     >
       {children}

@@ -1,0 +1,10 @@
+.party-list-buttons {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  gap: 20px;
+
+  button {
+    width: 150px;
+  }
+}

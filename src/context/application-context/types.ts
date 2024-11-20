@@ -1,8 +1,11 @@
 import {PartyState} from "../../pages/party/party-reducer/types.ts";
 
 export interface ApplicationReducerState {
- parties: PartyState[];
- selectedParties: Array<number>;
+  parties: PartyState[];
+  selectedParties: Array<number>;
+  modals: {
+    confirmDeleteModalIsOpen: boolean;
+  };
 }
 
 export enum ApplicationActionType {
@@ -11,7 +14,8 @@ export enum ApplicationActionType {
   EDIT_PARTY = "EDIT_PARTY",
   TOGGLE_SELECT_ALL = "TOGGLE_SELECT_ALL",
   TOGGLE_SELECT_ONE = "TOGGLE_SELECT_ONE",
-
+  DELETE_SELECTED = "DELETE_SELECTED",
+  TOGGLE_CONFIRM_DELETE_MODAL = "TOGGLE_CONFIRM_DELETE_MODAL",
 }
 
 export interface ApplicationAction<Type extends ApplicationActionType, Payload> {

@@ -5,7 +5,10 @@ import {parties} from "./data.ts";
 
 export const INITIAL_STATE: ApplicationReducerState = {
   parties: [...parties],
-  selectedParties: []
+  selectedParties: [],
+  modals: {
+    confirmDeleteModalIsOpen: false,
+  }
 }
 
 export const applicationReducer: Reducer<ApplicationReducerState, AvailableApplicationAction> = (state, action) => {
@@ -51,7 +54,29 @@ export const applicationReducer: Reducer<ApplicationReducerState, AvailableAppli
       const {index} = action.payload
       return {
         ...state,
-        selectedParties: state.selectedParties.includes(index) ? state.selectedParties.filter(number => number !== index) : [...state.selectedParties, index]
+        selectedParties: state.selectedParties.includes(index) ? state.selectedParties.filter(selectedPartyIndex => selectedPartyIndex !== index) : [...state.selectedParties, index]
+      }
+    }
+
+    case ApplicationActionType.DELETE_SELECTED: {
+      return {
+        ...state,
+        parties: state.parties.filter((el, index) => !state.selectedParties.includes(index)),
+        selectedParties: [],
+        modals: {
+          ...state.modals,
+          confirmDeleteModalIsOpen: false
+        }
+      }
+    }
+
+    case ApplicationActionType.TOGGLE_CONFIRM_DELETE_MODAL: {
+      return {
+        ...state,
+        modals: {
+          ...state.modals,
+          confirmDeleteModalIsOpen: !state.modals.confirmDeleteModalIsOpen
+        }
       }
     }
 
