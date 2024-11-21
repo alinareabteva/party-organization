@@ -19,13 +19,13 @@ const Modal = () => {
 
   const onClickCreateParty = () => {
     addNewParty(values)
-    navigate(AppPath.PARTY_LIST_PAGE)
+    navigate(AppPath.DEFAULT)
   }
 
   const onClickEditParty = () => {
     if(partyIndex !== undefined){
       editParty(partyIndex, values)
-      navigate(AppPath.PARTY_LIST_PAGE)
+      navigate(AppPath.DEFAULT)
     }
   }
 

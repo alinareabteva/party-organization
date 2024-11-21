@@ -4,7 +4,7 @@ import "./NavBar.scss"
 
 const pages = [
   {
-    path: AppPath.PARTY_PAGE,
+    path: AppPath.DEFAULT,
     label: "Party List"
   },
   {
