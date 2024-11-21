@@ -4,9 +4,11 @@ import {NavLink} from "react-router-dom";
 import {AppPath} from "../../../../routes-constants.ts";
 import {ApplicationContext} from "../../../../context/application-context/ApplicationContext.tsx";
 import "./PartyListButtons.scss"
+import AddIcon from "@mui/icons-material/Add";
 
 const PartyListButtons = () => {
   const {toggleOpenConfirmDeleteModal, applicationState: {selectedParties}} = useContext(ApplicationContext);
+
   return (
     <div className="party-list-buttons">
       {selectedParties.length > 0 &&
@@ -15,12 +17,14 @@ const PartyListButtons = () => {
         </Button>
       }
       <NavLink to={AppPath.CREATE_PARTY_PAGE}>
-        <Button variant="contained" className="btn-add" color="success">
+        <Button variant="contained" className="btn-add" color="success" endIcon={<AddIcon/>}>
           Add Party
         </Button>
       </NavLink>
+
     </div>
   );
 };
+
 
 export default PartyListButtons;

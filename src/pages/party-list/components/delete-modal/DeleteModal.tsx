@@ -7,7 +7,11 @@ import {createPortal} from "react-dom";
 import {ApplicationContext} from "../../../../context/application-context/ApplicationContext.tsx";
 
 const DeleteModal = () => {
-  const {toggleOpenConfirmDeleteModal, deleteSelectedParties} = useContext(ApplicationContext)
+  const {
+    applicationState: {selectedParties},
+    toggleOpenConfirmDeleteModal,
+    deleteSelectedParties
+  } = useContext(ApplicationContext)
   return (
     <div className="backdrop">
       <div className="modal">
@@ -18,11 +22,11 @@ const DeleteModal = () => {
             </IconButton>
           </div>
           <div className="modal-body">
-           Are you sure that you want to delete this party?
+            {selectedParties.length > 1 ? "Are you sure that you want to delete these parties?" : "Are you sure that you want to delete this party?"}
           </div>
           <div className="buttons">
             <Button size="large" variant="contained" color="secondary" onClick={deleteSelectedParties}>
-            Yes
+              Yes
             </Button>
             <Button size="large" variant="contained" color="primary" onClick={toggleOpenConfirmDeleteModal}>
               No

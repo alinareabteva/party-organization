@@ -1,0 +1,15 @@
+.none-party {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  .text {
+    font-weight: bold;
+    font-size: 40px;
+    margin-top: 20px;
+    color: #4e9811;
+
+  }
+}
