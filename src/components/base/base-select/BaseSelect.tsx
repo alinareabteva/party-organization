@@ -3,7 +3,7 @@ import {Checkbox, ListItemText, MenuItem} from "@mui/material";
 import {useMemo} from "react";
 
 export interface SelectOption {
-  value: string;
+  value: string | number;
   label: string;
 }
 

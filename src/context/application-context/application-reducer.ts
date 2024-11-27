@@ -1,11 +1,12 @@
 import {Reducer} from "react";
 import {ApplicationActionType, ApplicationReducerState} from "./types.ts";
 import {AvailableApplicationAction} from "./application-actions.ts";
-import {parties} from "./data.ts";
 
 export const INITIAL_STATE: ApplicationReducerState = {
-  parties: [...parties],
+  parties: [],
   selectedParties: [],
+  isPartiesFetched: false,
+  loading: false,
   modals: {
     confirmDeleteModalIsOpen: false,
   }
@@ -13,6 +14,23 @@ export const INITIAL_STATE: ApplicationReducerState = {
 
 export const applicationReducer: Reducer<ApplicationReducerState, AvailableApplicationAction> = (state, action) => {
   switch (action.type) {
+    case ApplicationActionType.SET_PARTIES: {
+      return {
+        ...state,
+        parties: action.payload,
+        selectedParties: [],
+        loading: false,
+        isPartiesFetched: true
+      }
+    }
+
+    case ApplicationActionType.SET_PARTIES_LOADING: {
+      return {
+        ...state,
+        loading: action.payload
+      }
+    }
+
     case ApplicationActionType.ADD_PARTY: {
       return {
         ...state,

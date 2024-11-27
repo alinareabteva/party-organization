@@ -68,11 +68,29 @@ export const deleteSelectedPartyAction: AppActionVoidFunction<DeleteSelectedPart
   }
 }
 
-type toggleConfirmDeleteModalReturnType = ApplicationAction<ApplicationActionType.TOGGLE_CONFIRM_DELETE_MODAL, null>
-export const toggleConfirmDeleteModalAction: AppActionVoidFunction<toggleConfirmDeleteModalReturnType['type'], toggleConfirmDeleteModalReturnType['payload']> = () => {
+type ToggleConfirmDeleteModalReturnType = ApplicationAction<ApplicationActionType.TOGGLE_CONFIRM_DELETE_MODAL, null>
+export const toggleConfirmDeleteModalAction: AppActionVoidFunction<ToggleConfirmDeleteModalReturnType['type'], ToggleConfirmDeleteModalReturnType['payload']> = () => {
   return {
     type: ApplicationActionType.TOGGLE_CONFIRM_DELETE_MODAL,
     payload: null
+  }
+}
+
+type SetPartiesActionReturnType = ApplicationAction<ApplicationActionType.SET_PARTIES, Array<PartyState>>
+
+export const setPartiesAction: AppActionFuncWithPayload<SetPartiesActionReturnType['type'], SetPartiesActionReturnType['payload']> = (parties) => {
+  return {
+    type: ApplicationActionType.SET_PARTIES,
+    payload: parties
+  }
+}
+
+type SetPartiesLoadingActionReturnType = ApplicationAction<ApplicationActionType.SET_PARTIES_LOADING, boolean>
+
+export const setPartiesLoadingAction: AppActionFuncWithPayload<SetPartiesLoadingActionReturnType['type'], SetPartiesLoadingActionReturnType['payload']> = (payload) => {
+  return {
+    type: ApplicationActionType.SET_PARTIES_LOADING,
+    payload
   }
 }
 
@@ -83,4 +101,6 @@ export type AvailableApplicationAction = AddNewPartyActionReturnType
   | ToggleSelectAllReturnType
   | ToggleSelectOneReturnType
   | DeleteSelectedPartyReturnType
-  | toggleConfirmDeleteModalReturnType
+  | ToggleConfirmDeleteModalReturnType
+  | SetPartiesActionReturnType
+  | SetPartiesLoadingActionReturnType
