@@ -1,10 +1,16 @@
 import React, {FunctionComponent, PropsWithChildren, useCallback, useEffect, useReducer} from "react";
 import {applicationReducer, INITIAL_STATE} from "./application-reducer.ts";
-import {ApplicationReducerState} from "./types.ts";
+import {ApplicationReducerState, Pageable} from "./types.ts";
 import {
   addNewPartyAction,
-  deletePartyAction, deleteSelectedPartyAction,
-  editPartyAction, setPartiesAction, setPartiesLoadingAction, toggleConfirmDeleteModalAction,
+  deletePartyAction,
+  deleteSelectedPartyAction,
+  editPartyAction,
+  setPageableLimitAction,
+  setPageableCurrentPageAction,
+  setPartiesAction,
+  setPartiesLoadingAction,
+  toggleConfirmDeleteModalAction,
   toggleSelectAllAction,
   toggleSelectOneAction
 } from "./application-actions.ts";
@@ -21,6 +27,8 @@ interface ApplicationContextValue {
   toggleSelectOne: (index: number) => void;
   deleteSelectedParties: () => void;
   toggleOpenConfirmDeleteModal: () => void;
+  setPageableLimit: (limit: Pageable['limit']) => void;
+  setCurrentPage: (currentPage: Pageable['currentPage']) => void;
 }
 
 export const ApplicationContext = React.createContext<ApplicationContextValue>({} as ApplicationContextValue);
@@ -58,8 +66,18 @@ export const ApplicationContextProvider: FunctionComponent<PropsWithChildren> = 
     dispatch(toggleConfirmDeleteModalAction())
   }
 
+  const setPageableLimit: ApplicationContextValue['setPageableLimit'] = (limit) => {
+    dispatch(setPageableLimitAction(limit))
+  }
+
+  const setCurrentPage: ApplicationContextValue['setCurrentPage'] = (currentPage) => {
+    dispatch(setPageableCurrentPageAction(currentPage))
+  }
+
+
   const fetchParties = (offset: number, limit: number) => {
     dispatch(setPartiesLoadingAction(true))
+
     getAllPartiesApi(offset, limit)
       .then((parties) => {
         const remappedParties = parties.map(party => {
@@ -86,10 +104,10 @@ export const ApplicationContextProvider: FunctionComponent<PropsWithChildren> = 
       })
   }
 
-
+  const {offset, limit} = applicationState.pageable;
   useEffect(() => {
-   fetchParties(30, 100)
-  }, [])
+    fetchParties(offset, limit)
+  }, [offset, limit])
 
 
   return (
@@ -102,7 +120,9 @@ export const ApplicationContextProvider: FunctionComponent<PropsWithChildren> = 
         toggleSelectAll,
         toggleSelectOne,
         deleteSelectedParties,
-        toggleOpenConfirmDeleteModal
+        toggleOpenConfirmDeleteModal,
+        setPageableLimit,
+        setCurrentPage
       }}
     >
       {children}

@@ -1,5 +1,13 @@
 import {PartyState} from "../../pages/party/party-reducer/types.ts";
 
+export interface Pageable {
+  totalItems: number;///constant - usually comes from backend
+  limit: number;
+  currentPage: number;//0
+  totalPages: number; // totalItems / limit
+  offset: number; // (currentPage - 1) * limit
+}
+
 export interface ApplicationReducerState {
   parties: PartyState[];
   isPartiesFetched: boolean;
@@ -8,6 +16,7 @@ export interface ApplicationReducerState {
   modals: {
     confirmDeleteModalIsOpen: boolean;
   };
+  pageable: Pageable;
 }
 
 export enum ApplicationActionType {
@@ -20,6 +29,8 @@ export enum ApplicationActionType {
   DELETE_SELECTED = "DELETE_SELECTED",
   TOGGLE_CONFIRM_DELETE_MODAL = "TOGGLE_CONFIRM_DELETE_MODAL",
   SET_PARTIES_LOADING = "SET_PARTIES_LOADING",
+  SET_LIMIT = "SET_LIMIT",
+  SET_CURRENT_PAGE = "SET_CURRENT_PAGE",
 }
 
 export interface ApplicationAction<Type extends ApplicationActionType, Payload> {

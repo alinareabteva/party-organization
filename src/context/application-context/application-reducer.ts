@@ -2,6 +2,10 @@ import {Reducer} from "react";
 import {ApplicationActionType, ApplicationReducerState} from "./types.ts";
 import {AvailableApplicationAction} from "./application-actions.ts";
 
+const TOTAL_ITEMS = 650;
+const DEFAULT_LIMIT = 10;
+
+
 export const INITIAL_STATE: ApplicationReducerState = {
   parties: [],
   selectedParties: [],
@@ -9,6 +13,13 @@ export const INITIAL_STATE: ApplicationReducerState = {
   loading: false,
   modals: {
     confirmDeleteModalIsOpen: false,
+  },
+  pageable: {
+    totalItems: TOTAL_ITEMS,
+    limit: DEFAULT_LIMIT,
+    currentPage: 0,//if zero based then  page is calculated: limit * offset
+    totalPages: TOTAL_ITEMS / DEFAULT_LIMIT,
+    offset: 0,
   }
 }
 
@@ -61,7 +72,7 @@ export const applicationReducer: Reducer<ApplicationReducerState, AvailableAppli
     }
 
     case ApplicationActionType.TOGGLE_SELECT_ALL: {
-      return  {
+      return {
         ...state,
         selectedParties: state.selectedParties.length === state.parties.length ? new Array<number>() : state.parties.map((el, index) => index)
       }
@@ -94,6 +105,31 @@ export const applicationReducer: Reducer<ApplicationReducerState, AvailableAppli
         modals: {
           ...state.modals,
           confirmDeleteModalIsOpen: !state.modals.confirmDeleteModalIsOpen
+        }
+      }
+    }
+    case ApplicationActionType.SET_LIMIT: {
+      const limit = action.payload;
+      return {
+        ...state,
+        pageable: {
+          ...state.pageable,
+          limit,
+          totalPages: state.pageable.totalItems / limit,
+          currentPage: 0,
+          offset: 0
+        }
+      }
+    }
+
+    case ApplicationActionType.SET_CURRENT_PAGE: {
+      const currentPage = action.payload;
+      return {
+        ...state,
+        pageable: {
+          ...state.pageable,
+          offset: currentPage * state.pageable.limit,
+          currentPage
         }
       }
     }

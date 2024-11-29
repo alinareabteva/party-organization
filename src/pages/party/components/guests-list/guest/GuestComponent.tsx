@@ -44,7 +44,7 @@ export interface Guest {
 
 
 export interface AlcoholDto {
-  id: string;
+  id: number;
   name: string;
 }
 
@@ -113,7 +113,7 @@ const GuestComponent = ({
 
   const alcoholChange = (e: SelectChangeEvent<SelectOption | Array<SelectOption>>) => {
     const value = Array.isArray(e.target.value) ? e.target.value : [e.target.value];
-    const foundAlcohol = ALCOHOL_NAMES.find(alcohol => value.includes(alcohol.id));
+    const foundAlcohol = ALCOHOL_NAMES.find(alcohol => value.includes(alcohol.id + ''));
 
     if (foundAlcohol) {
       const newAlcoholArray = alcohol.includes(foundAlcohol) ? alcohol.filter(a => a.id !== foundAlcohol.id) : [...alcohol, foundAlcohol]

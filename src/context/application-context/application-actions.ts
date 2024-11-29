@@ -1,4 +1,10 @@
-import {AppActionFuncWithPayload, AppActionVoidFunction, ApplicationAction, ApplicationActionType} from "./types.ts";
+import {
+  AppActionFuncWithPayload,
+  AppActionVoidFunction,
+  ApplicationAction,
+  ApplicationActionType,
+  Pageable
+} from "./types.ts";
 import {PartyState} from "../../pages/party/party-reducer/types.ts";
 
 
@@ -94,6 +100,24 @@ export const setPartiesLoadingAction: AppActionFuncWithPayload<SetPartiesLoading
   }
 }
 
+type SetPageableLimitActionReturnType = ApplicationAction<ApplicationActionType.SET_LIMIT, Pageable['limit']>;
+
+export const setPageableLimitAction: AppActionFuncWithPayload<SetPageableLimitActionReturnType['type'], SetPageableLimitActionReturnType['payload']> = (payload) => {
+  return {
+    type: ApplicationActionType.SET_LIMIT,
+    payload
+  }
+}
+
+type SetPageableCurrentPageActionReturnType = ApplicationAction<ApplicationActionType.SET_CURRENT_PAGE, Pageable['currentPage']>;
+
+export const setPageableCurrentPageAction: AppActionFuncWithPayload<SetPageableCurrentPageActionReturnType['type'], SetPageableCurrentPageActionReturnType['payload']> = (payload) => {
+  return {
+    type: ApplicationActionType.SET_CURRENT_PAGE,
+    payload
+  }
+}
+
 
 export type AvailableApplicationAction = AddNewPartyActionReturnType
   | DeletePartyActionReturnType
@@ -104,3 +128,5 @@ export type AvailableApplicationAction = AddNewPartyActionReturnType
   | ToggleConfirmDeleteModalReturnType
   | SetPartiesActionReturnType
   | SetPartiesLoadingActionReturnType
+  | SetPageableLimitActionReturnType
+  | SetPageableCurrentPageActionReturnType

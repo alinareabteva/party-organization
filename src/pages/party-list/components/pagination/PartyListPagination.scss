@@ -1,0 +1,27 @@
+.party-list-pagination {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  justify-content: center;
+  gap: 30px;
+  margin-top: 20px;
+
+  .pagination {
+    display: flex;
+    justify-content: center;
+
+    .MuiButtonBase-root {
+      color: #385915;
+      font-weight: bold;
+    }
+  }
+
+  .base-select {
+    height: 2rem;
+
+    .MuiSelect-select {
+      color: #385915;
+      font-weight: bold;
+    }
+  }
+}
